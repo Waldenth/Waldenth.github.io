@@ -636,7 +636,7 @@ body::before {
   position: fixed;
   height: 100vh;
   z-index: -1;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0);
 }
 .nightmode body::before {
   background-color: rgba(0,0,0,0.6);
@@ -697,7 +697,7 @@ body::before {
 }
 .content-wrap {
   width: calc(100% - 330px);
-  float: left;
+  float: right;
 }
 .content-wrap--noside {
   float: none;
@@ -935,7 +935,7 @@ body::before {
   z-index: -1;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.35);
+  background-color: rgba(0,0,0,0.3);
 }
 .header-banner-info {
   position: absolute;
@@ -1013,7 +1013,7 @@ body::before {
 }
 .sidebar-wrap {
   width: 300px;
-  float: right;
+  float: left;
 }
 .sidebar-nav {
   padding-bottom: 1em;
@@ -1086,6 +1086,7 @@ body::before {
   opacity: 1;
   -ms-filter: none;
   filter: none;
+  border-radius: 50%;
 }
 .sidebar-ov-author__avatar:hover .sidebar-ov-author__avatar_img {
   -webkit-animation: avatar-turn 0.8s both ease-out;
