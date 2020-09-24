@@ -2087,7 +2087,7 @@ body::before {
   display: block;
   font-size: 1.2rem;
   line-height: 1;
-  color: #49b1f5;
+  color: #ff1493;
   -webkit-transition: color 0.2s ease;
   -moz-transition: color 0.2s ease;
   -o-transition: color 0.2s ease;
@@ -2495,12 +2495,12 @@ body::before {
   font-size: 0.9em;
   color: #999;
 }
-@media (min-width: 1050px) {
+@media (min-width: 1040px) {
   .header-nav-inner {
-    width: 1050px;
+    width: 1040px;
   }
   .main-inner {
-    width: 1050px;
+    width: 1040px;
   }
 }
 @media (min-width: 991.98px) {
