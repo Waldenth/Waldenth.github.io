@@ -2087,7 +2087,7 @@ body::before {
   display: block;
   font-size: 1.2rem;
   line-height: 1;
-  color: #888;
+  color: #708090;
   -webkit-transition: color 0.2s ease;
   -moz-transition: color 0.2s ease;
   -o-transition: color 0.2s ease;
