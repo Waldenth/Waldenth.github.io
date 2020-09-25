@@ -9,7 +9,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/09/25/7SypAFvck36qDHi.png">
 <meta property="og:image" content="https://i.loli.net/2020/09/25/5nABpdjDgzMfyaS.png">
 <meta property="article:published_time" content="2020-09-25T01:24:38.270Z">
-<meta property="article:modified_time" content="2020-09-25T01:38:20.000Z">
+<meta property="article:modified_time" content="2020-09-25T02:18:38.000Z">
 <meta property="article:author" content="Aaron-沈思源">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2020/09/25/dIsWtF3P7K49qSH.png"><title>JAVA 多文件运行的命令行操作 | Welcome</title><link ref="canonical" href="https://www.neptunia.top/2020/09/25/JAVA_multifile_command/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.1.1"><script>var Stun = window.Stun || {};
@@ -60,14 +60,19 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></he
 <p>然后在HelloWorld文件夹的平级下，打开DOS命令窗口，运行<code>javac HelloWorld/TestPlusPlus.java</code>编译程序，</p>
 <p>运行<code>java HelloWorld/TestPlusPlus</code>(或者<code>java HelloWorld.TestPlusPlus</code>也可以)，则可以运行含有包名的java程序。</p>
 <p><strong>注意:包名不要含有’.’(点),’ ‘(空格)等特殊符号，这样的话命令行无法判断包名与java程序名的分割点在哪里，从而还是找到或者无法加载主类。</strong></p>
-<p><strong>因此，命令<code>java HelloWorld/TestPlusPlus</code>只能这样写</strong>，不能写成<code>java ./HelloWorld/TestPlusPlus</code>和<code>java /HelloWorld/TestPlusPlus</code>,因为空有一个<code>/</code>不知道是哪个目录，而<code>.</code>又不能加。</p>
+<p><strong>因此，命令<code>java HelloWorld/TestPlusPlus</code>只能这样写</strong>，</p>
+<p><strong>不能</strong>写成<code>java ./HelloWorld/TestPlusPlus</code>和<code>java /HelloWorld/TestPlusPlus</code>,因为空有一个<code>/</code>不知道是哪个目录，而<code>.</code>又不能加。另外，指明路径时最好不要用反斜杠<code>\</code></p>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">java charactor/Run.java  # YES,运行的.java文件(要先编译出.class)</span><br><span class="line">java charactor/Run		#	YES	目标是.class</span><br><span class="line">java charactor.Run		# YES</span><br><span class="line"></span><br><span class="line">java charactor\Run.java	#YES	不好</span><br><span class="line">java charactor\Run		#NO</span><br><span class="line">java charactor.Run.java	#NO,用.指引路径不要加.扩展名,会以为成一级目录</span><br><span class="line">java .charactor.Run		#NO,当前是在charactor文件夹同级目录下,不要加点</span><br></pre></td></tr></table></div></figure>
+
+
+
 
         <h3 id="原理说明："   >
           <a href="#原理说明：" class="heading-link"><i class="fas fa-link"></i></a>原理说明：</h3>
       <p>java程序运行class文件,对于有包名的类,java把包名当成文件夹处理.”包名+类名”相当于”文件夹目录+类名”来寻找类。</p>
 <figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java charactor.Run</span><br><span class="line">java charactor/Run</span><br></pre></td></tr></table></div></figure>
 
-<p>多文件要先编译</p>
+<p><strong>多文件要先编译</strong></p>
 <figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">javac .\property\*.java -encoding UTF-8</span><br><span class="line">java property.Item</span><br><span class="line">&#123;java property/Item&#125;</span><br></pre></td></tr></table></div></figure>
 
 <p>若编译好了一个包，可以在同级目录下编写<code>java</code>文件来<code>import</code>这个包</p>
