@@ -6,7 +6,7 @@
 <meta property="og:description" content="139. 单词拆分        给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。 这是一个行内数学公式：∣abcd∣\begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix}∣∣∣∣​ac​bd​∣∣∣∣​ 这个数学公式会换行显示： ∣abcd∣">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-27T13:35:45.911Z">
-<meta property="article:modified_time" content="2020-09-27T14:20:50.413Z">
+<meta property="article:modified_time" content="2020-09-27T14:33:00.158Z">
 <meta property="article:author" content="Aaron-沈思源">
 <meta property="article:tag" content="LeetCode">
 <meta property="article:tag" content="动态规划">
@@ -69,7 +69,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></he
 <li><code>[A],[BC]</code></li>
 <li><code>[AB],[C]</code></li>
 </ol>
-<p>一共有$$s.length()$$种划分方案，分别判断每种划分方案产生的子字符串时候都满足可由字典匹配的要求，如果某种划分方案的两个子字符串都可以被匹配，说明原字符串可以被匹配。</p>
+<p>一共有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi mathvariant="normal">.</mi><mi>l</mi><mi>e</mi><mi>n</mi><mi>g</mi><mi>t</mi><mi>h</mi><mo stretchy="false">(</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">s.length()</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mopen">(</span><span class="mclose">)</span></span></span></span>种划分方案，分别判断每种划分方案产生的子字符串时候都满足可由字典匹配的要求，如果某种划分方案的两个子字符串都可以被匹配，说明原字符串可以被匹配。</p>
 <p>对于划分的左部分字符串，可以在划分原字符串的左边一部分时就得知，用数组$$DP[\quad]$$来存储已经知道的左部字符串能否匹配的信息。也就是：</p>
 <p>​                                                       $$DP[i]:\quad表示字符串s[0…i-1]能否被字典所匹配$$</p>
 <p>那么对于$$j&gt;i$$，$$DP[j]$$就可以表示成：</p>
@@ -83,6 +83,9 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></he
 <p>对于每个字符串划分时的第一种情况，由于产生了空串$$NULL$$，根据通常情况的循环表达式：</p>
 <figure class="highlight java"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;nums.length();j++)</span><br><span class="line">  	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;j;i++)&#123;</span><br><span class="line">        <span class="comment">//计算当前情况得到的DP[j],DP[j]=DP[i]&amp;&amp;(s[i...j-1]是否可以匹配)</span></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></div></figure>
 <p>可以看到，循环表达式处理空串划分情况是$$DP[0]$$和$$s[0…j-1]$$，说明$$DP[0]$$用来表示空串的情况，所以默认要将$$DP[0]$$初始化为$$true$$</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo separator="true">,</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a,b,c
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo separator="true">,</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a,b,c</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span></span></span></span></p>
 <p><strong>$$s[i…j-1]$$</strong> <strong>的处理：</strong></p>
 <p>将所给字典构建一个哈希集合进行映射，利用<code>.contains()</code>来判断$$s[i…j-1]$$是否能被字典某个元素匹配.</p>
 
