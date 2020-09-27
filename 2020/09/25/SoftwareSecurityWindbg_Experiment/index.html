@@ -44,81 +44,99 @@ var CONFIG = {
 window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Welcome</div><div class="header-banner-info__subtitle">Aaron的个人博客</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">WinDbg操作-软件安全实验</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-09-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-09-26</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>在自己电脑上使用WinDbg解析hello25.exe程序运行时虚拟地址0x00403000h对应的物理地址（验证条件：物理地址与虚拟地址对应的数据应一致）</p>
 <a id="more"></a>
 
-
-        <h2 id="软件安全实验-WinDbg查看物理地址"   >
-          <a href="#软件安全实验-WinDbg查看物理地址" class="heading-link"><i class="fas fa-link"></i></a>软件安全实验-WinDbg查看物理地址</h2>
+        <h2 id="软件安全实验-windbg查看物理地址"   >
+          <a href="#软件安全实验-windbg查看物理地址" class="heading-link"><i class="fas fa-link"></i></a>软件安全实验-WinDbg查看物理地址</h2>
       
+
         <h3 id="basis"   >
           <a href="#basis" class="heading-link"><i class="fas fa-link"></i></a>basis</h3>
-      <p>64位系统下虚拟地址到物理地址的转换</p>
+      
+<p>64位系统下虚拟地址到物理地址的转换</p>
 <p>在64位体系中，实现了48位的虚拟地址，剩下的高16位用作符号扩展，要么全是0，要么全是1.</p>
-<p>与x86体系结构不同，x64下每级页表的寻址长度变成9位，因为页的大小仍然是4KB=$$2^{12}B$$，但是数据的大小却是64bit=8Byte=$$2^3 B$$，页每个数据是$$2^3 B$$，因此有$$2^9=512$$项，需要9位寻址。</p>
+<p>与x86体系结构不同，x64下每级页表的寻址长度变成9位，因为页的大小仍然是4KB=$$2<sup>{12}B$$，但是数据的大小却是64bit=8Byte=$$2</sup>3 B$$，页每个数据是$$2^3 B$$，因此有$$2^9=512$$项，需要9位寻址。</p>
 <p>64位体系下，CPU将48位虚拟地址转换成物理地址有三种模型：</p>
 <ol>
-<li>$$4KB$$页面，使用PML4T,PDPT,PDT,PT四级转换结构</li>
-<li>$$2MB$$页面，使用PML4T,PDPT,PDT三级转换结构</li>
-<li>$$1GB$$页面，使用PML4T,PDPT二级转换结构</li>
+<li>
+<p class='katex-block katex-error' title='ParseError: KaTeX parse error: Can&#039;t use function &#039;$&#039; in math mode at position 4: 4KB$̲$页面，使用PML4T,PDP…'>4KB$$页面，使用PML4T,PDPT,PDT,PT四级转换结构
+</p>
+</li>
+<li>
+<p class='katex-block katex-error' title='ParseError: KaTeX parse error: Can&#039;t use function &#039;$&#039; in math mode at position 4: 1GB$̲$页面，使用PML4T,PDP…'>1GB$$页面，使用PML4T,PDPT二级转换结构
+
+</p>
+</li>
 </ol>
-<p>一般讨论第一种.（个人PC一般$$4KB$$页面</p>
 <p>48位虚拟地址：</p>
 <figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">           |           |           |		   |</span><br><span class="line">0000 0000 0|000 0000 00|00 0000 010|0 0000 0001| 0000 0000 0000</span><br><span class="line">-----------+-----------+-----------+-----------+----------------</span><br><span class="line">   PML4E		PDPTE		PDE			PTE			页内OFFSET</span><br></pre></td></tr></table></div></figure>
 
-
-        <h3 id="WinDbg-Setting"   >
-          <a href="#WinDbg-Setting" class="heading-link"><i class="fas fa-link"></i></a>WinDbg Setting</h3>
+        <h3 id="windbg-setting"   >
+          <a href="#windbg-setting" class="heading-link"><i class="fas fa-link"></i></a>WinDbg Setting</h3>
       
-        <h4 id="Prepare-Work"   >
-          <a href="#Prepare-Work" class="heading-link"><i class="fas fa-link"></i></a>Prepare Work</h4>
-      <p>建议用Windows10 64位标准系统，我用的是教育版，去MSDN I tell you上搜索磁力链接，离线到云盘或者下载器下载。</p>
+
+        <h4 id="prepare-work"   >
+          <a href="#prepare-work" class="heading-link"><i class="fas fa-link"></i></a>Prepare Work</h4>
+      
+<p>建议用Windows10 64位标准系统，我用的是教育版，去MSDN I tell you上搜索磁力链接，离线到云盘或者下载器下载。</p>
 <p>KMS激活：开管理员<code>cmd</code></p>
 <figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">slmgr /ipk NW6C2-QMPVW-D7KKK-3GKT6-VCFB2</span><br><span class="line"></span><br><span class="line">slmgr /skms kms.03k.org</span><br><span class="line"></span><br><span class="line">slmgr /ato</span><br></pre></td></tr></table></div></figure>
-
 <p>管理员<code>cmd</code>输入</p>
-<p><code>bcdedit -debug on </code>命令；如果无法执行很有可能是bios设置了安全启动，需要进入bios将其关闭。<br>要选择Debug Tools中的WinDbg x64而不是 x86，WinDbg要用管理员运行</p>
+<p><code>bcdedit -debug on</code>命令；如果无法执行很有可能是bios设置了安全启动，需要进入bios将其关闭。<br />
+要选择Debug Tools中的WinDbg x64而不是 x86，WinDbg要用管理员运行</p>
 <p><strong>网络开启全局代理</strong></p>
-<p>启动后<code>crtl+s</code>或者找到<code>symbol search path</code>按钮，输入：<br><code>srv*C:\Symbols*https://msdl.microsoft.com/download/symbols</code><br>这个<code>C:\symbols</code>就是自己从服务器下载到本地的符号表缓存文件夹,可以自己更改，之后软件就会根据这两个路径找符号表，第一次下载下来后，就可以直接在本地对应路径链接符号表了</p>
+<p>启动后<code>crtl+s</code>或者找到<code>symbol search path</code>按钮，输入：<br />
+<code>srv*C:\Symbols*https://msdl.microsoft.com/download/symbols</code><br />
+这个<code>C:\symbols</code>就是自己从服务器下载到本地的符号表缓存文件夹,可以自己更改，之后软件就会根据这两个路径找符号表，第一次下载下来后，就可以直接在本地对应路径链接符号表了</p>
 <p>启动内核调试,如果不加载就输入<code>.reolad</code>执行，流量好几分钟不走再输入<code>!process</code>如果执行成功就没问题了,每次启动好像路径要重新设置一下，可参考</p>
 <p>每次启动WinDbg时需要确定<code>srv</code>是否配置正确。</p>
 <p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47771088" >https://zhuanlan.zhihu.com/p/47771088</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 
-        <h4 id="Steps"   >
-          <a href="#Steps" class="heading-link"><i class="fas fa-link"></i></a>Steps</h4>
-      <ol>
-<li><p>运行测试程序，添加进程，<code>db 401000</code>，查看数据</p>
-<p><img src="https://i.loli.net/2020/09/25/NokQGuJI4vfhTHO.png" alt="image-20200922201025478"></p>
+        <h4 id="steps"   >
+          <a href="#steps" class="heading-link"><i class="fas fa-link"></i></a>Steps</h4>
+      
+<ol>
+<li>
+<p>运行测试程序，添加进程，<code>db 401000</code>，查看数据</p>
+<p><img src="https://i.loli.net/2020/09/25/NokQGuJI4vfhTHO.png" alt="image-20200922201025478" /></p>
 </li>
-<li><p>运行另一个<strong>WinDbg</strong>，启动本地内核调试，输入命令<code>process 0 0 Hello25.exe</code>，查看<code>DirBase(CR3)</code><img src="https://i.loli.net/2020/09/25/sMCb8vIOJ6jzywc.png" alt="image-20200922201229684"></p>
+<li>
+<p>运行另一个<strong>WinDbg</strong>，启动本地内核调试，输入命令<code>process 0 0 Hello25.exe</code>，查看<code>DirBase(CR3)</code><img src="https://i.loli.net/2020/09/25/sMCb8vIOJ6jzywc.png" alt="image-20200922201229684" /></p>
 </li>
-<li><p>虚拟地址401000，写成48位标准形式是0x 000000 401000</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000 0000 0|000 0000 00|00 0000 010|0 0000 0001| 0000 0000 0000</span><br><span class="line">-----------+-----------+-----------+-----------+----------------</span><br><span class="line">   PML4E		PDPTE		PDE			PTE			页内OFFSET</span><br></pre></td></tr></table></div></figure>
-
+<li>
+<p>虚拟地址401000，写成48位标准形式是0x 000000 401000</p>
+</li>
+</ol>
+   <figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000 0000 0|000 0000 00|00 0000 010|0 0000 0001| 0000 0000 0000</span><br><span class="line">-----------+-----------+-----------+-----------+----------------</span><br><span class="line">   PML4E		PDPTE		PDE			PTE			页内OFFSET</span><br></pre></td></tr></table></div></figure>
 <p>PML4E=PDPTE=0,</p>
 <p>PDE=2</p>
 <p>PTE=1</p>
 <p>页内偏移=0</p>
 <p>由于PML4E=0，上一级的12-35位提供下一级的物理基地址高24位，低12位补0，输入<code>!dq 39c45000+0*8</code>,</p>
 <p>这里一个页项64bit=8字节，第0个页项，对应项字节地址(即首地址)即<code>+0*8</code></p>
-<p><img src="https://i.loli.net/2020/09/25/SgZpdFrVBclI7ms.png" alt="image-20200922202933529"></p>
+<p><img src="https://i.loli.net/2020/09/25/SgZpdFrVBclI7ms.png" alt="image-20200922202933529" /></p>
+<ol start="4">
+<li>
+<p>PDPTE=0，输入<code>!dq 07e7e6000+0*8</code></p>
+<p><img src="https://i.loli.net/2020/09/25/QEUVWRDumPYXHij.png" alt="image-20200922203027885" /></p>
 </li>
-<li><p>PDPTE=0，输入<code>!dq 07e7e6000+0*8</code></p>
-<p><img src="https://i.loli.net/2020/09/25/QEUVWRDumPYXHij.png" alt="image-20200922203027885"></p>
+<li>
+<p>PDE=2，输入<code>!dq 069ca7000+0x2*8</code></p>
+<p><img src="https://i.loli.net/2020/09/25/WJQaxIomzBSpwlN.png" alt="image-20200922203141535" /></p>
 </li>
-<li><p>PDE=2，输入<code>!dq 069ca7000+0x2*8</code></p>
-<p><img src="https://i.loli.net/2020/09/25/WJQaxIomzBSpwlN.png" alt="image-20200922203141535"></p>
+<li>
+<p>PTE=1，输入<code>!dq 028968000+0x1*8</code></p>
+<p><img src="https://i.loli.net/2020/09/25/LuPGD4wOJcXSbTH.png" alt="image-20200922203305876" /></p>
 </li>
-<li><p>PTE=1，输入<code>!dq 028968000+0x1*8</code></p>
-<p><img src="https://i.loli.net/2020/09/25/LuPGD4wOJcXSbTH.png" alt="image-20200922203305876"></p>
-</li>
-<li><p>页内偏移0，输入<code>!db 11a6be000+0</code></p>
-<p><img src="https://i.loli.net/2020/09/25/4bGEwgiYuUl1z6e.png" alt="image-20200922203947854"></p>
+<li>
+<p>页内偏移0，输入<code>!db 11a6be000+0</code></p>
+<p><img src="https://i.loli.net/2020/09/25/4bGEwgiYuUl1z6e.png" alt="image-20200922203947854" /></p>
 <p>比较第1步，成功访问相同数据。</p>
 </li>
 </ol>
-</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://www.neptunia.top">Aaron-沈思源</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://www.neptunia.top/2020/09/25/SoftwareSecurityWindbg_Experiment/">https://www.neptunia.top/2020/09/25/SoftwareSecurityWindbg_Experiment/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/Windows/">Windows</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/">软件安全</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/09/27/DiskFormatANDataRecover/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">磁盘格式与数据恢复实验</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/09/25/JAVA_multifile_command/"><span class="paginator-prev__text">JAVA 多文件运行的命令行操作</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C-WinDbg%E6%9F%A5%E7%9C%8B%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://www.neptunia.top">Aaron-沈思源</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://www.neptunia.top/2020/09/25/SoftwareSecurityWindbg_Experiment/">https://www.neptunia.top/2020/09/25/SoftwareSecurityWindbg_Experiment/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/Windows/">Windows</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/">软件安全</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/09/27/DiskFormatANDataRecover/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">磁盘格式与数据恢复实验</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/09/25/JAVA_multifile_command/"><span class="paginator-prev__text">JAVA 多文件运行的命令行操作</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C-windbg%E6%9F%A5%E7%9C%8B%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80"><span class="toc-number">1.</span> <span class="toc-text">
           软件安全实验-WinDbg查看物理地址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#basis"><span class="toc-number">1.1.</span> <span class="toc-text">
-          basis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WinDbg-Setting"><span class="toc-number">1.2.</span> <span class="toc-text">
-          WinDbg Setting</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Prepare-Work"><span class="toc-number">1.2.1.</span> <span class="toc-text">
-          Prepare Work</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Steps"><span class="toc-number">1.2.2.</span> <span class="toc-text">
+          basis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windbg-setting"><span class="toc-number">1.2.</span> <span class="toc-text">
+          WinDbg Setting</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#prepare-work"><span class="toc-number">1.2.1.</span> <span class="toc-text">
+          Prepare Work</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#steps"><span class="toc-number">1.2.2.</span> <span class="toc-text">
           Steps</span></a></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://s1.ax1x.com/2020/09/24/0SnK1g.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="waldenth@outlook.com" target="_blank" rel="noopener" data-popover="social.outlook" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="ywcz0817" target="_blank" rel="noopener" data-popover="微信" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-weixin"></i></span></a><a class="sidebar-ov-social-item" href="3218606649" target="_blank" rel="noopener" data-popover="QQ" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">11</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron-沈思源</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
   var isXML = true;
   var search_path = 'search.json';
