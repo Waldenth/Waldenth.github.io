@@ -628,7 +628,7 @@ body::after {
   position: fixed;
   height: 100vh;
   z-index: -2;
-  background: url("https://gitee.com/waldenth/blogimage/raw/master/img/0S3bee.jpg") no-repeat center/cover;
+  background: url("https://gitee.com/waldenth/blogimage/raw/master/img/background.jpg") no-repeat center/cover;
 }
 body::before {
   content: '';
