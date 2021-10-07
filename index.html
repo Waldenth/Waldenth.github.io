@@ -29,7 +29,139 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Welcome</div><div class="header-banner-info__subtitle">Aaron的个人博客</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/10/05/CMU15-721-Lec02-In-Memory-Databases/">CMU15-721-Lecture02笔记</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-10-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-05</span></span></div></header><div class="post-body"><div class="post-excerpt"><h2 id="lec-02-in-memory-databases"   >
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Welcome</div><div class="header-banner-info__subtitle">Aaron的个人博客</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/10/07/CentOS_OpenVPN/">Centos 7安装并配置OpenVPN</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-10-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-07</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h2 id="1-安装openvpn"   >
+          <a href="#1-安装openvpn" class="heading-link"><i class="fas fa-link"></i></a>1 安装OpenVPN</h2>
+      
+<p>开启<code>epel</code>源，并采用<code>yum</code>的方式安装<code>openvpn</code>：</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y epel-release</span><br><span class="line">$ yum update -y</span><br><span class="line">$ yum install -y openssl lzo pam openssl-devel lzo-devel pam-devel</span><br><span class="line">$ yum install -y easy-rsa</span><br><span class="line">$ yum install -y openvpn</span><br></pre></td></tr></table></div></figure>
+
+        <h2 id="2-配置openvpn服务器"   >
+          <a href="#2-配置openvpn服务器" class="heading-link"><i class="fas fa-link"></i></a>2 配置OpenVPN服务器</h2>
+      
+
+        <h3 id="21-创建配置过程中需要使用的目录"   >
+          <a href="#21-创建配置过程中需要使用的目录" class="heading-link"><i class="fas fa-link"></i></a>2.1 创建配置过程中需要使用的目录</h3>
+      
+<ol>
+<li>创建日志存放目录：<code>mkdir -p /var/log/openvpn/</code></li>
+<li>创建用户管理目录：<code>mkdir -p /etc/openvpn/server/user</code></li>
+<li>配置目录权限：<code>chown openvpn:openvpn /var/log/openvpn</code></li>
+</ol>
+
+        <h3 id="22-生成证书"   >
+          <a href="#22-生成证书" class="heading-link"><i class="fas fa-link"></i></a>2.2 生成证书</h3>
+      
+<p>通过<code>yum</code>方式安装的<code>easy-rsa</code>是3.x版本，可直接从安装目录中拷贝一份工具到<code>/etc/openvpn</code>中</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp -rf /usr/share/easy-rsa/3.0.8 /etc/openvpn/server/easy-rsa</span><br></pre></td></tr></table></div></figure>
+
+        <h4 id="221-为服务器端创建证书"   >
+          <a href="#221-为服务器端创建证书" class="heading-link"><i class="fas fa-link"></i></a>2.2.1 为服务器端创建证书</h4>
+      
+<ol>
+<li>
+<p>切换至<code>/etc/openvpn/server/easy-rsa</code>目录</p>
+</li>
+<li>
+<p>使用命令<code>./easyrsa init-pki</code>进行初始化，会在当前目录创建PKI目录，用来存储一些中间变量和最终生成的证书</p>
+</li>
+<li>
+<p>使用命令<code>./easyrsa build-ca nopass</code>创建证书</p>
+</li>
+<li>
+<p>生成服务器端证书：<code>./easyrsa build-server-full server nopass</code></p>
+</li>
+<li>
+<p>创建Diffie-Hellman：<code>./easyrsa gen-dh</code>，确保key可以穿越不安全网络的命令</p>
+</li>
+<li>
+<p>整理服务器端证书：</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /etc/openvpn/server</span><br><span class="line">$ cp -a pki/ca.crt /etc/openvpn/server/</span><br><span class="line">$ cp -a pki/private/server.key /etc/openvpn/server</span><br><span class="line">$ cp -a pki/issued/server.crt /etc/openvpn/server</span><br><span class="line">$ cp -a pki/dh.pem /etc/openvpn/server</span><br><span class="line">$ cp -a ta.key /etc/openvpn/server</span><br></pre></td></tr></table></div></figure>
+</li>
+</ol>
+
+        <h4 id="222-为客户端创建证书"   >
+          <a href="#222-为客户端创建证书" class="heading-link"><i class="fas fa-link"></i></a>2.2.2 为客户端创建证书</h4>
+      
+<p>生成无密码的客户端证书：<code>./easyrsa build-client-full client nopass</code><br />
+生成带密码的客户端证书：<code>./easyrsa build-client-full yourown</code>，会提示让你输入密码，记住设置的密码，在连接OpenVPN服务端时会使用，可多次操作该步骤为多个用户创建证书</p>
+
+        <h4 id="223-创建takey"   >
+          <a href="#223-创建takey" class="heading-link"><i class="fas fa-link"></i></a>2.2.3 创建ta.key</h4>
+      
+<p>为了提高<code>OpenVPN</code>的安全性，可以创建<code>ta.key</code>：<code>openvpn --genkey --secret ta.key</code>，能够加强认证方式，防止攻击</p>
+
+        <h3 id="23-编辑配置文件"   >
+          <a href="#23-编辑配置文件" class="heading-link"><i class="fas fa-link"></i></a>2.3 编辑配置文件</h3>
+      
+<ol>
+<li>拷贝<code>sample.conf</code>到<code>/etc/openvpn</code>作为起始配置文件：<code>cp /usr/share/doc/openvpn-*/sample/sample-config-files/server.conf /etc/openvpn/server</code></li>
+<li>使用<code>vi /etc/openvpn/server.conf</code>命令编辑配置文件 (位置可能不一定是这里，可能是<code>/etc/openvpn/server/server.conf</code>)
+<ol>
+<li>将25行修改为：<code>local 0.0.0.0</code></li>
+<li>取消35行注释，修改效果：<code>proto tcp</code></li>
+<li>注释36行，修改效果：<code>; proto udp</code></li>
+<li>修改78行，设置ca.crt的路径：<code>ca /etc/openvpn/server/ca.crt</code></li>
+<li>修改79行，设置server.crt的路径：<code>cert /etc/openvpn/server/server.crt</code></li>
+<li>修改80行，设置server.key的路径：<code>key /etc/openvpn/server/server.key</code></li>
+<li>修改85行，设置dh的路径：<code>dh /etc/openvpn/server/dh.pem</code></li>
+<li>修改141行：<code>push &quot;route 10.10.10.0 255.255.255.0&quot;</code></li>
+<li>修改244行：<code>tls-auth /etc/openvpn/server/ta.key 0</code></li>
+<li>取消257行注释：<code>compress lz4-v2</code></li>
+<li>取消258行注释：<code>push &quot;compress lz4-v2&quot;</code></li>
+<li>取消274、275行注释</li>
+<li>取消296行注释，并修改日志文件地址：<code>log /var/log/openvpn.log</code><br />
+注释315行</li>
+<li>其他配置内容保持默认即可</li>
+</ol>
+</li>
+</ol>
+
+        <h2 id="3-启动openvpn并配置开机启动"   >
+          <a href="#3-启动openvpn并配置开机启动" class="heading-link"><i class="fas fa-link"></i></a>3 启动OpenVPN并配置开机启动</h2>
+      
+<ol>
+<li>使用命令<code>vi /usr/lib/systemd/system/openvpn-server\@.service</code>编辑服务文件，修改<code>ExecStart</code>的值为<code>ExecStart=/usr/sbin/openvpn --status %t/openvpn-server/status-%i.log --status-version 2 --suppress-timestamps --config server.conf</code></li>
+<li>修改服务文件的名称<code>cp /usr/lib/systemd/system/openvpn-server\@.service /usr/lib/systemd/system/openvpn-service.service</code></li>
+<li>启动OpenVPN：<code>systemctl start openvpn-service</code></li>
+<li>配置OpenVPN开机启动：<code>sysemctl enable openvpn-service</code></li>
+</ol>
+
+        <h2 id="4-配置防火墙"   >
+          <a href="#4-配置防火墙" class="heading-link"><i class="fas fa-link"></i></a>4 配置防火墙</h2>
+      
+<p>配置防火墙，开启1194端口：</p>
+<p>也可通过云服务WEB控制台</p>
+<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ firewall-cmd --permanent --add-masquerade</span><br><span class="line">$ firewall-cmd --permanent --add-service=openvpn</span><br><span class="line">$ firewall-cmd --permanent --add-port=1194/tcp</span><br><span class="line">$ firewall-cmd --permanent --direct --passthrough ipv4 -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE</span><br><span class="line">$ firewall-cmd --reload</span><br></pre></td></tr></table></div></figure>
+
+        <h2 id="5-windows客户端配置"   >
+          <a href="#5-windows客户端配置" class="heading-link"><i class="fas fa-link"></i></a>5 Windows客户端配置</h2>
+      
+<ol>
+<li>
+<p>从/etc/openvpn/server/easy-rsa拷贝ta.key文件</p>
+</li>
+<li>
+<p>从/etc/openvpn/server/easy-rsa/pki/private拷贝客户端的.key文件，例如：jiaoxn.key</p>
+</li>
+<li>
+<p>从/etc/openvpn/server/easy-rsa/pki/issued拷贝客户端的.crt文件，例如：jiaoxn.crt</p>
+</li>
+<li>
+<p>从/etc/openvpn/server/easy-rsa/pki拷贝客户端的ca.crt文件</p>
+</li>
+<li>
+<p>Windows系统安装OpenVPN客户端后，打开配置文件夹（默认是：C:\Program Files\OpenVPN\config），新建文件夹（例如：client），拷贝前面4个文件到新建的文件夹</p>
+</li>
+<li>
+<p>在第5步新建的文件夹中，创建client.ovpn文件（文件名和文件夹名称一致），配置内容如下，其中yourown.crt、yourown.key替换成对应的文件名client</p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">dev tun</span><br><span class="line">proto tcp</span><br><span class="line">remote 192.168.1.70 1194</span><br><span class="line">resolv-retry infinite</span><br><span class="line">nobind</span><br><span class="line">;user nobody</span><br><span class="line">;group nobody</span><br><span class="line">persist-key</span><br><span class="line">persist-tun</span><br><span class="line">ca ca.crt</span><br><span class="line">cert yourown.crt</span><br><span class="line">key yourown.key</span><br><span class="line">remote-cert-tls server</span><br><span class="line">tls-auth ta.key 1</span><br><span class="line">cipher AES-256-CBC</span><br><span class="line">compress lz4-v2</span><br><span class="line">verb 3</span><br><span class="line">;mute 20</span><br></pre></td></tr></table></div></figure>
+</li>
+<li>
+<p>右键<code>VPN</code>图标，选择刚刚配置的文件夹名称，点击“连接”</p>
+</li>
+</ol>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/10/05/CMU15-721-Lec02-In-Memory-Databases/">CMU15-721-Lecture02笔记</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-10-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-05</span></span></div></header><div class="post-body"><div class="post-excerpt"><h2 id="lec-02-in-memory-databases"   >
           <a href="#lec-02-in-memory-databases" class="heading-link"><i class="fas fa-link"></i></a>Lec-02 In-memory Databases</h2>
       
 <p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Y7411o7GN?p=2" >video</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
@@ -128,11 +260,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></he
 <p>查看服务是否开机启动：systemctl is-enabled vsftpd.service</p>
 <p>查看已启动的服务列表：systemctl list-unit-files|grep enabled</p>
 <p>查看启动失败的服务列表：systemctl --failed</p>
-</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/01/28/HikVisionSDK/">海康威视SDK开发</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-01-28</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-05-19</span></span></div></header><div class="post-body"><div class="post-excerpt"><h2 id="demo测试运行"   >
-          <a href="#demo测试运行" class="heading-link"><i class="fas fa-link"></i></a>demo测试运行</h2>
-      
-<p>demo和动态连接库分为Linux和Windows版本,其中Windows使用Visual Studio构建工程,<br />
-Linux下使用Ubuntu,但是要注意参考makefile编写</p></div><div class="post-readmore"><a class="post-readmore__link" href="/2021/01/28/HikVisionSDK/"><span class="post-readmore__text">阅读全文</span><span class="post-readmore__icon"><i class="fas fa-long-arrow-alt-right"></i></span></a></div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right"></i></a></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://gitee.com/waldenth/blogimage/raw/master/img/0SnK1g.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="mailto:waldenth@outlook.com" target="_blank" rel="noopener" data-popover="outlook-email" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/31914896" target="_blank" rel="noopener" data-popover="Bilibili" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-tv"></i></span></a><a class="sidebar-ov-social-item" href="https://steamcommunity.com/profiles/76561198873347160/" target="_blank" rel="noopener" data-popover="steam" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-steam"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">18</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2021008806号-1</a></span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
+</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right"></i></a></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://gitee.com/waldenth/blogimage/raw/master/img/0SnK1g.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="mailto:waldenth@outlook.com" target="_blank" rel="noopener" data-popover="outlook-email" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/31914896" target="_blank" rel="noopener" data-popover="Bilibili" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-tv"></i></span></a><a class="sidebar-ov-social-item" href="https://steamcommunity.com/profiles/76561198873347160/" target="_blank" rel="noopener" data-popover="steam" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-steam"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">19</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2021008806号-1</a></span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
   var isXML = true;
   var search_path = 'search.json';
 
