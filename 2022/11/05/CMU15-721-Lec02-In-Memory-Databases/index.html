@@ -1,0 +1,588 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.1.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.1.1" type="image/png" sizes="32x32"><meta name="description" content="Lec-02 In-memory Databases        video                     Disk-oriented DBMS(面向磁盘的数据库)          数据主要是在非易失性存储器中(HDD,SSD),以页或者帧(Page or Frame)为单位做存储   使用在内存中的**缓存池(Buffer Pool)**来将磁盘数据导入内存并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMU15-721-Lecture02笔记">
+<meta property="og:url" content="https://www.neptunia.top/2022/11/05/CMU15-721-Lec02-In-Memory-Databases/index.html">
+<meta property="og:site_name" content="Aaron的个人空间">
+<meta property="og:description" content="Lec-02 In-memory Databases        video                     Disk-oriented DBMS(面向磁盘的数据库)          数据主要是在非易失性存储器中(HDD,SSD),以页或者帧(Page or Frame)为单位做存储   使用在内存中的**缓存池(Buffer Pool)**来将磁盘数据导入内存并">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005210919847.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/20201207103106902.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200426204351.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/312753-20190626115738779-1763049586.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005214323198.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005214627964.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/312753-20190626120512358-23562664.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005215134735.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005215251726.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/312753-20190626120535298-1569553780.png">
+<meta property="og:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005215739487.png">
+<meta property="article:published_time" content="2022-11-05T04:18:03.033Z">
+<meta property="article:modified_time" content="2021-10-05T14:06:52.177Z">
+<meta property="article:author" content="Aaron">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005210919847.png"><title>CMU15-721-Lecture02笔记 | Aaron的个人空间</title><link ref="canonical" href="https://www.neptunia.top/2022/11/05/CMU15-721-Lec02-In-Memory-Databases/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.1.1"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Aaron的个人空间</div><div class="header-banner-info__subtitle">Welcome</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">CMU15-721-Lecture02笔记</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-05</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h2 id="lec-02-in-memory-databases"   >
+          <a href="#lec-02-in-memory-databases" class="heading-link"><i class="fas fa-link"></i></a>Lec-02 In-memory Databases</h2>
+      
+<p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Y7411o7GN?p=2" >video</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+
+        <h2 id="disk-oriented-dbms面向磁盘的数据库"   >
+          <a href="#disk-oriented-dbms面向磁盘的数据库" class="heading-link"><i class="fas fa-link"></i></a>Disk-oriented DBMS(面向磁盘的数据库)</h2>
+      
+<ul>
+<li>
+<p>数据主要是在<strong>非易失性存储器</strong>中(HDD,SSD),以页或者帧(Page or Frame)为单位做存储</p>
+</li>
+<li>
+<p>使用在内存中的**缓存池(Buffer Pool)**来将磁盘数据导入内存并在内存中处理，缓存来自磁盘的page</p>
+</li>
+<li>
+<p><strong>槽(slot)</strong> , 数据库的数据存储结构是通过表空间（table space）-&gt;段(segment)-&gt;区（或者簇extends)-&gt;页（page)进行管理, 其中页是最小管理单元，而数据库表的记录在页内保持有序的方法就是<strong>槽(slot)管理</strong>，以MySQL为例分析：</p>
+<ul>
+<li>
+<p>Innodb是多条记录对应一个槽，而槽的作用就是用来在页面内进行数据搜索的，因为查找一条数据时，是用B+tree来保证通过树形结构找到一个记录所在的页，而在页内部真正找到这条记录是通过槽来完成的</p>
+</li>
+<li>
+<p>在页内部，Innodb划分出一个区域比如10byte，作为槽的区域（当然槽的区域根据使用的大小是可以变化的），一个槽占用2byte。那么现在可以将这个槽看作是长度大小为5的数组。</p>
+</li>
+<li>
+<p>当我们将一条数据记录写入数据库时，通过数据库的Innodb最终决定写入在这个页内。那么写在这个页的哪里呢？形象的理解就是这个页，就相当于一张A4纸；数据记录就是一条信息，我们写的时候就是从上到下，从左至右的方法去写。Innodb的写入方式基本上也是这样的写入方式，但是这其中有很多问题需要数据库去解决。其中就是写入后数据记录的顺序问题。</p>
+</li>
+<li>
+<p>模拟数据的写入过程：<br />
+1.写入第1条记录1，该记录在页内偏移量为120，长度为100，则slot[0]=120;<br />
+2.写入第2条记录10，该记录在页内偏移量为220，长度为100，则slot[1]=220;<br />
+3.写入第3条记录5，该记录在页内偏移量为320，长度为100，此时需要移动slot的内容，则slot[1]=320;slot[2]=220;</p>
+</li>
+<li>
+<p>这样通过 slot的有序性，就保证了写入页内的数据记录的有序性。上面说过，Innodb的槽是多条记录对应一个slot。对于innodb它页内记录通过双向链表相互联接。</p>
+<ul>
+<li>slot[0]=120对应记录1的偏移量，而记录1有指向记录2的指针，记录2有指向记录3的指针；</li>
+<li>slot[1]=420对应记录4的偏移量（这里假设每条记录长度为100），记录4有指向记录5的指针，记录5的指向记录6的指针</li>
+<li>后面的槽依次类推。slot[2]管理7，8，9三条记录；slot[3]管理10，11，12三条记录；slot[4]管理13，14，15三条记录；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+        <h3 id="buffer-pool-issue缓冲池"   >
+          <a href="#buffer-pool-issue缓冲池" class="heading-link"><i class="fas fa-link"></i></a>Buffer Pool Issue（缓冲池）</h3>
+      
+<p>由于引入了缓冲池，磁盘型DB完整过程如下：</p>
+<ul>
+<li>
+<p>完整查询过程：</p>
+<p>1.从数据库索引中查找对应记录的<strong>Page ID</strong>和<strong>slot(数据库页的槽)</strong>，如果索引的节点没有加载到内存中，需要从磁盘中加载</p>
+<p>2.去页表中查询该Page是否已经加载到内存</p>
+<p>3.如果没有的话，从磁盘中找到该页，并且复制到缓存池的一帧中(frame)</p>
+<p>4.如果缓存池没有空的frame，则按一定替换原则evict某页(LRU,FIFO,CLOCK)，并且还要更新page table</p>
+<p>5.如果page是dirty的即被修改过，就需要把对应修改后的内容写回磁盘中</p>
+<p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005210919847.png" alt="image-20211005210919847" /></p>
+</li>
+<li>
+<p>这种架构的坏处：</p>
+<p>Every tuple access has to go through the buffer pool manager regardless of whether that data will always be in memory.</p>
+<p>无论查询元组是否在内存中都需要去buffer pool中查找</p>
+</li>
+</ul>
+
+        <h3 id="concurrency-control-issue并发控制"   >
+          <a href="#concurrency-control-issue并发控制" class="heading-link"><i class="fas fa-link"></i></a>Concurrency Control Issue（并发控制）</h3>
+      
+<p>面向磁盘的数据库假定<strong>在尝试访问没有加载到内存的数据的时候，事务会“stall(抛锚，熄火)”</strong></p>
+<p>当然系统为了提高性能会允许一个事务stall的时候同时执行其他事务，靠上锁来实现ACID。(原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）)</p>
+<p>锁存储在in-memory的一个hash-table，叫lock manager,避免锁数据被swap到磁盘上，<strong>All the info about lock is in memory!</strong>，所有关于锁的信息全部在内存中！</p>
+
+        <h3 id="logging-recovery-issue-日志与恢复"   >
+          <a href="#logging-recovery-issue-日志与恢复" class="heading-link"><i class="fas fa-link"></i></a>Logging &amp; Recovery Issue （日志与恢复）</h3>
+      
+<ul>
+<li>事务提交前，把修改写入<strong>Write-Ahead-Log(WAL)</strong>，WAL包含undo log 和 redo log</li>
+<li>每一个log entry（日志项）包含事务修改前后数据的镜像</li>
+<li>The DBMS flushes WAL pages to disk separately from corresponding modified database pages, so it takes extra work to keep track of what log record is responsible for what page，DBMS将WAL页面从相应的修改过的数据库页面分别刷新到磁盘，因此需要额外的工作来跟踪日志记录负责哪个页面</li>
+<li>在事务提交之前，必须将所有修改刷新到WAL。</li>
+<li>需要维护log record是负责哪一个page的信息（利用LSN Log Sequence Number）</li>
+</ul>
+
+        <h3 id="开销比较"   >
+          <a href="#开销比较" class="heading-link"><i class="fas fa-link"></i></a>开销比较</h3>
+      
+<p>如果不考虑disk flushing,面向磁盘数据库开销主要花费在：</p>
+<p>BUFFER POOL 34%</p>
+<p>LATCHING 14% (隔离的是线程,保证并发线程操作临界资源的正确性)</p>
+<p>LOCKING 16% (隔离的是事务，一般锁住的是数据库的表，行)</p>
+<p>LOGGING 12%</p>
+<p>B-TREE KEYS 16% 索引查找时间</p>
+<p>CPU 7%</p>
+
+        <h2 id="in-memory-dbms面向内存的数据库"   >
+          <a href="#in-memory-dbms面向内存的数据库" class="heading-link"><i class="fas fa-link"></i></a>In-memory DBMS(面向内存的数据库)</h2>
+      
+<p>背景：DRAM的发展，价格和容量足以把整个数据库的数据都存储到内存中</p>
+<p>这时候磁盘IO不再是数据库性能的瓶颈,而需要考虑以下可以优化的性能瓶颈</p>
+<ul>
+<li>
+<p>Locking/Latching：</p>
+<ul>
+<li>lock的对象是事务，用来锁定的是数据库中的对象，如表、页、行。并且一般lock的对象仅在事务commit或rollback后进行释放（不同事务隔离级别释放的时间可能不同）。此外，lock，正如在大多数数据库中一样，是有死锁机制的。</li>
+<li>latch一般称为闩锁（轻量级锁），因为其要求锁定的时间必须非常短。</li>
+</ul>
+<p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/20201207103106902.png" alt="20201207103106902" /></p>
+</li>
+<li>
+<p>Cache-line misses，cache命中</p>
+</li>
+<li>
+<p>Pointer chasing，指针追踪</p>
+</li>
+<li>
+<p>Predicate evaluation，谓词运算</p>
+</li>
+<li>
+<p>Data movement and copying，数据移动和复制</p>
+</li>
+<li>
+<p>Networking ，网络通信</p>
+</li>
+</ul>
+<p>因为所有数据都在内存中，因此不会存在脏页，也不需要维护undo log信息，也不需要LSN机制</p>
+
+        <h3 id="与面向磁盘数据库的一些不同"   >
+          <a href="#与面向磁盘数据库的一些不同" class="heading-link"><i class="fas fa-link"></i></a>与面向磁盘数据库的一些不同</h3>
+      
+<ul>
+<li>
+<p>Data Organization</p>
+<p>1.从索引Index中查找数据指针所在的Block ID与Offset</p>
+<p>2.根据Block ID与Offset找到数据指针的内存地址,指针存储在Fixed-Length Data Blocks(固定长度数据块)中</p>
+<p>3.根据这个64-bits指针去Variable-Length Data Blocks(可变长度数据块)去寻找真正的数据</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200426204351.png" alt="微信截图_20200426204351" /></p>
+<ul>
+<li>
+<p>Indexes</p>
+<p>In-memory DBMS并不会记录索引的更新。数据库再重启时，当所有数据加载到内存之后直接在内存中重建这个索引。</p>
+</li>
+<li>
+<p>Query Processing</p>
+<p>由于数据都在内存中，随机访问的速度并不比顺序访问要差</p>
+</li>
+<li>
+<p>Logging &amp; Revocery</p>
+<p>1.仍然需要维护WAL，即修改数据库之前,把修改记录写入WAL然后同步到内存中</p>
+<p>2.使用组提交来提交WAL，分摊fsync系统调用的开销</p>
+<p>3.也可以使用更轻量级的logging策略，只存储redo信息</p>
+</li>
+<li>
+<p>Concurrency control——提供原子性与隔离性</p>
+<p>在面向磁盘的数据库中，锁是存放在另外一个内存中的hash表，与数据记录本身是分开来存储的。因为记录是可能被swap到外存。</p>
+<p>而在IMDB中，由于数据记录一直在内存中，不会swap到外存，因此可以把记录有关的锁的信息与记录一起保存。</p>
+<p>所以尝试取锁的效率=尝试获得数据的效率</p>
+<p>瓶颈在于：多个事务同时尝试访问某个数据，只有一个事务能抢到锁</p>
+<p>如果用mutex实现的话性能太慢，建议用CAS来保证这里的同步</p>
+</li>
+</ul>
+
+        <h3 id="cas"   >
+          <a href="#cas" class="heading-link"><i class="fas fa-link"></i></a>CAS</h3>
+      
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__sync_bool_compare_and_swap(&amp;M, <span class="number">20</span>, <span class="number">30</span>);</span><br></pre></td></tr></table></div></figure>
+<p>当且仅当M地址代表的值等于20的时候，把M地址所在的值设为30。否则失败，因为不等于的话说明这个值肯定被别的线程修改了</p>
+
+        <h3 id="并发控制"   >
+          <a href="#并发控制" class="heading-link"><i class="fas fa-link"></i></a>并发控制</h3>
+      
+<p>接下来的会详细讨论并发控制的一些策略：</p>
+
+        <h4 id="悲观策略2-phase-locking-两段锁协议"   >
+          <a href="#悲观策略2-phase-locking-两段锁协议" class="heading-link"><i class="fas fa-link"></i></a>悲观策略——2 PHASE LOCKING 两段锁协议</h4>
+      
+<p>操作数据之前一定先抢锁</p>
+<p>2PL解决死锁两种策略：</p>
+<ul>
+<li>
+<p>1.死锁探测</p>
+<p>维护一个队列，队列存放着拿着锁的事务，一个后台线程周期性扫这个队列的事务，看哪些事务在运行，哪些stall，这就可以找到发生死锁的事务。</p>
+</li>
+<li>
+<p>2.死锁预防</p>
+<p>在分配锁之前看有没有其他事务已经拿到这把锁，如果这个事务拿不了锁：</p>
+<p>1）等待</p>
+<p>2）自杀</p>
+<p>3）杀死另外一个拿锁的事务</p>
+</li>
+</ul>
+
+        <h4 id="乐观策略timestamp-ordering-时间戳排序"   >
+          <a href="#乐观策略timestamp-ordering-时间戳排序" class="heading-link"><i class="fas fa-link"></i></a>乐观策略——Timestamp Ordering 时间戳排序</h4>
+      
+<p>操作数据不抢锁，事务提交的时候比较时间戳，以时间为序，按每个transaction的时间来排谁先执行</p>
+<p>参考资料：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/fxjwind/p/11114136.html" >CMU Database Systems - Timestamp Ordering Concurrency Control - fxjwind - 博客园 (cnblogs.com)</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+
+        <h5 id="basic-to-protocol"   >
+          <a href="#basic-to-protocol" class="heading-link"><i class="fas fa-link"></i></a>Basic T/O Protocol</h5>
+      
+<p>首先每个txn(事务，Transaction)需要有一个独一无二的timestamp，这个在单机很容易实现；其次，Timestamp必须是单调递增的，最后，不同的schema会选择在不同的时间给txn打上timestamp，可能是txn刚到的时候，也可能是txn执行完的时候。</p>
+<p><strong>txn是transaction的简写，ts为timestamp</strong></p>
+<p>每一个事务txn都会分配一个时间戳，每一个记录的头部维护上一次事务操作的时间戳。然后事务对时间戳进行操作的时候，比较现在事务的时间戳与记录头部当前的时间戳。</p>
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/312753-20190626115738779-1763049586.png" alt="img" style="zoom:50%;" />
+<p>以课程案列，首先，给每个object加上读时间戳和写时间戳，表示最后一次读写该对象的时间，如图，对象A,B分别加上读写时间戳，均为10000，然后对图中事务txn的每个读写操作进行时间戳比对</p>
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005214323198.png" alt="image-20211005214323198" style="zoom: 33%;" />
+<ul>
+<li>读Object操作：拿<strong>当前事务ts</strong>和<strong>Object的写ts</strong>比较，如果Object的写ts比较新，那么读需要abort，因为，你不能读一个未来的值</li>
+</ul>
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005214627964.png" alt="image-20211005214627964" style="zoom:50%;" />
+<p>可以看到，案例txn中READ(A)首先将本事务ts=10001对象A的写ts=10000比较，本txn的ts更新，因此READ(A)操作合法，并将对象A的读时间戳更新为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mi>R</mi><mo>−</mo><mi>t</mi><mi>s</mi><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>t</mi><mi>s</mi><mo stretchy="false">(</mo><mi>t</mi><mi>x</mi><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">max(R-ts(A),ts(txn))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mord mathdefault">x</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span>,这里将A读ts改为10001</p>
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/312753-20190626120512358-23562664.png" alt="img" style="zoom: 50%;" />
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005215134735.png" alt="image-20211005215134735" style="zoom: 50%;" />
+<p>写Object操作：要同时将本txn的ts和该对象的读、写ts进行比较，比较对象写是因为你不能用过去的值覆盖未来的值，比较对象读是因为如果有未来的txn读过这个值，你就不能再更新。<strong>即事务txn的时间戳要大于对象的读和写时间戳才可以进行操作</strong>，操作后，需要更新对象的写时间戳</p>
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005215251726.png" alt="image-20211005215251726" style="zoom:50%;" />
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/312753-20190626120535298-1569553780.png" alt="img" style="zoom:50%;" />
+<p>课程案例中，假设本txn在省略号部分处理其他事情，无读写操作，此时另一个时间戳为10005的txn进行了对对象A的写操作，A的写ts修改为10005，当本txn其他事情完成，继续后续另一个的WRITE(A)操作时：</p>
+<img src="https://gitee.com/waldenth/blogimage/raw/master/img/image-20211005215739487.png" alt="image-20211005215739487" style="zoom:50%;" />
+<p>进行ts比较，此时txn ts=10001&lt; Object A write ts=10005，操作不合法，事务无法提交，处理失败，回滚</p>
+
+        <h5 id="乐观并发控制"   >
+          <a href="#乐观并发控制" class="heading-link"><i class="fas fa-link"></i></a>乐观并发控制</h5>
+      
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. Read Phase: Transaction’s copy tuples accessed to private work space to ensure repeatable reads, and</span><br><span class="line">keep track of read&#x2F;write sets.</span><br><span class="line"></span><br><span class="line">2. Validation Phase: When the transaction invokes COMMIT, the DBMS checks if it conflicts with other</span><br><span class="line">transactions. Parallel validation means that each transaction must check the read&#x2F;write set of other</span><br><span class="line">transactions that are trying to validate at the same time. Each transaction has to acquire locks for its</span><br><span class="line">write set records in some global order. Original OCC uses serial validation.</span><br><span class="line">The DBMS can proceed with the validation in two directions:</span><br><span class="line">? Backward Validation: Check whether the committing transaction intersects its read&#x2F;write sets</span><br><span class="line">with those of any transactions that have already committed.</span><br><span class="line">? Forward Validation: Check whether the committing transaction intersects its read&#x2F;write sets with</span><br><span class="line">any active transactions that have not yet committed.</span><br><span class="line"></span><br><span class="line">3. Write Phase: The DBMS propagates the changes in the transactions write set to the database and</span><br><span class="line">makes them visible to other transactions’ items. As each record is updated, the transaction releases</span><br><span class="line">the lock acquired during the Validation Phase</span><br></pre></td></tr></table></div></figure>
+<p>具体可以参考slides的过程</p>
+
+        <h5 id="时间戳的分配策略"   >
+          <a href="#时间戳的分配策略" class="heading-link"><i class="fas fa-link"></i></a>时间戳的分配策略</h5>
+      
+<ul>
+<li>基于互斥量：并发性能低</li>
+<li>原子加操作:   CAS操作去维护一个全局计数器</li>
+<li>批量原子加操作</li>
+<li>硬件CLOCK:  Intel CPU only</li>
+<li>硬件计数器: 尚未有硬件实现</li>
+</ul>
+
+        <h4 id="并发控制的性能瓶颈"   >
+          <a href="#并发控制的性能瓶颈" class="heading-link"><i class="fas fa-link"></i></a>并发控制的性能瓶颈</h4>
+      
+<ul>
+<li>
+<p>Lock Thrashing 锁抖动</p>
+<p>Each transaction waits longer to acquire locks, causing other transaction to wait longer to acquire<br />
+locks.</p>
+<p>Can measure this phenomenon by removing deadlock detection/prevention overhead.</p>
+<p>solution： force txns to acquire locks in primary key order</p>
+</li>
+<li>
+<p>Memory Allocation 内存分配</p>
+<p>Copying data on every read/write access slows down the DBMS because of contention on the memory<br />
+controller.</p>
+<p>Default libc malloc is slow. Never use it</p>
+</li>
+<li>
+<p>Timestamp Allocation 时间戳分配</p>
+</li>
+</ul>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://www.neptunia.top">Aaron</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://www.neptunia.top/2022/11/05/CMU15-721-Lec02-In-Memory-Databases/">https://www.neptunia.top/2022/11/05/CMU15-721-Lec02-In-Memory-Databases/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/database/">database</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/11/05/CentOS_OpenVPN/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Centos 7安装并配置OpenVPN</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/11/05/80X86-chapter3-Memory/"><span class="paginator-prev__text">微机原理-第三章-内存储器习题</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lec-02-in-memory-databases"><span class="toc-number">1.</span> <span class="toc-text">
+          Lec-02 In-memory Databases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#disk-oriented-dbms%E9%9D%A2%E5%90%91%E7%A3%81%E7%9B%98%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">
+          Disk-oriented DBMS(面向磁盘的数据库)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#buffer-pool-issue%E7%BC%93%E5%86%B2%E6%B1%A0"><span class="toc-number">2.1.</span> <span class="toc-text">
+          Buffer Pool Issue（缓冲池）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrency-control-issue%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">2.2.</span> <span class="toc-text">
+          Concurrency Control Issue（并发控制）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logging-recovery-issue-%E6%97%A5%E5%BF%97%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="toc-number">2.3.</span> <span class="toc-text">
+          Logging &amp; Recovery Issue （日志与恢复）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E9%94%80%E6%AF%94%E8%BE%83"><span class="toc-number">2.4.</span> <span class="toc-text">
+          开销比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#in-memory-dbms%E9%9D%A2%E5%90%91%E5%86%85%E5%AD%98%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">
+          In-memory DBMS(面向内存的数据库)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E9%9D%A2%E5%90%91%E7%A3%81%E7%9B%98%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%8D%E5%90%8C"><span class="toc-number">3.1.</span> <span class="toc-text">
+          与面向磁盘数据库的一些不同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cas"><span class="toc-number">3.2.</span> <span class="toc-text">
+          CAS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">3.3.</span> <span class="toc-text">
+          并发控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E7%AD%96%E7%95%A52-phase-locking-%E4%B8%A4%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.3.1.</span> <span class="toc-text">
+          悲观策略——2 PHASE LOCKING 两段锁协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E7%AD%96%E7%95%A5timestamp-ordering-%E6%97%B6%E9%97%B4%E6%88%B3%E6%8E%92%E5%BA%8F"><span class="toc-number">3.3.2.</span> <span class="toc-text">
+          乐观策略——Timestamp Ordering 时间戳排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#basic-to-protocol"><span class="toc-number">3.3.2.1.</span> <span class="toc-text">
+          Basic T&#x2F;O Protocol</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-number">3.3.2.2.</span> <span class="toc-text">
+          乐观并发控制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3%E7%9A%84%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-number">3.3.2.3.</span> <span class="toc-text">
+          时间戳的分配策略</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E7%9A%84%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88"><span class="toc-number">3.3.3.</span> <span class="toc-text">
+          并发控制的性能瓶颈</span></a></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://s2.loli.net/2022/04/01/BD2WfjUMlS7FxTv.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="mailto:waldenth@outlook.com" target="_blank" rel="noopener" data-popover="outlook-email" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/31914896" target="_blank" rel="noopener" data-popover="Bilibili" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-tv"></i></span></a><a class="sidebar-ov-social-item" href="https://steamcommunity.com/profiles/76561198873347160/" target="_blank" rel="noopener" data-popover="steam" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-steam"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2021008806号-1</a></span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" rel="stylesheet" type="text/css"><link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css"><script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '3e452adc1e51ac23d97a',
+    clientSecret: 'c2aa83661950454ec8b8efd85c75de2c65337624',
+    repo: 'https://github.com/Waldenth/Waldenth.github.io',
+    owner: 'Waldenth',
+    admin: ['Waldenth'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.1.1"></script><script src="/js/stun-boot.js?v=2.1.1"></script><script src="/js/scroll.js?v=2.1.1"></script><script src="/js/header.js?v=2.1.1"></script><script src="/js/sidebar.js?v=2.1.1"></script><script type="application/json" src="/search.json"></script></body></html>

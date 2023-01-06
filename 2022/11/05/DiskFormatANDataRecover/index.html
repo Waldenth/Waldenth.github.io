@@ -1,0 +1,555 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.1.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.1.1" type="image/png" sizes="32x32"><meta name="description" content="实验1 磁盘格式与数据恢复                            1.1实验名称        磁盘格式与数据恢复                     1.2实验目的          了解磁盘的物理和逻辑结构   熟悉FAT32文件系统   学会使用磁盘编辑软件   了解文件删除、格式化的基本原理   能够利用工具或者手工恢复被删除的文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="磁盘格式与数据恢复实验">
+<meta property="og:url" content="https://www.neptunia.top/2022/11/05/DiskFormatANDataRecover/index.html">
+<meta property="og:site_name" content="Aaron的个人空间">
+<meta property="og:description" content="实验1 磁盘格式与数据恢复                            1.1实验名称        磁盘格式与数据恢复                     1.2实验目的          了解磁盘的物理和逻辑结构   熟悉FAT32文件系统   学会使用磁盘编辑软件   了解文件删除、格式化的基本原理   能够利用工具或者手工恢复被删除的文件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/kvCuXMUqwQ49FD1.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/5pcERn2Ay6rdFbP.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/DEyxN73pnqhiQmK.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/2NxfwuLUX7SkKZs.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/TirBOU1yCPbjchq.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/FLqvs8NZYUklRE6.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/ID2Nmlb9Gx7Vjq6.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/LdG4KwltmkcYI91.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/gVezuUsHtiBOCbZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/5ksNXwEJWKTO9qv.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/Jmgxs4LqiXvnhu5.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/BJ1VLlEnogSQYjw.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/Fi4BEOPnSe7A3c2.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/wKZADkpriBtHXYS.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/TLaQ7J2qz5uvGDk.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/X3IHpRa7qVltNoJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/AGgKlyOqrDaTLZb.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/l1hRGqpKba7WPS3.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/SDBtVYF8qM7Ej9W.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/RKHYTZeI3LSUbC7.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/OfCKGvt6o3Raln2.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/XGKcARIVZLi2leF.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/zLq9jHMxaudpf6h.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/SYKNyqFkOj2DdCb.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/vzi2YO3mdkuol6B.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/u4Fkl5XHVBdiGLg.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/26/cgeoaFbXxDirQ3W.png">
+<meta property="article:published_time" content="2022-11-05T04:18:03.049Z">
+<meta property="article:modified_time" content="2020-09-27T02:05:50.145Z">
+<meta property="article:author" content="Aaron">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="软件安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/09/26/kvCuXMUqwQ49FD1.png"><title>磁盘格式与数据恢复实验 | Aaron的个人空间</title><link ref="canonical" href="https://www.neptunia.top/2022/11/05/DiskFormatANDataRecover/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.1.1"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Aaron的个人空间</div><div class="header-banner-info__subtitle">Welcome</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">磁盘格式与数据恢复实验</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-09-27</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h2 id="实验1-磁盘格式与数据恢复"   >
+          <a href="#实验1-磁盘格式与数据恢复" class="heading-link"><i class="fas fa-link"></i></a>实验1 磁盘格式与数据恢复</h2>
+      
+
+        <h3 id="11实验名称"   >
+          <a href="#11实验名称" class="heading-link"><i class="fas fa-link"></i></a>1.1实验名称</h3>
+      
+<p>磁盘格式与数据恢复</p>
+
+        <h3 id="12实验目的"   >
+          <a href="#12实验目的" class="heading-link"><i class="fas fa-link"></i></a>1.2实验目的</h3>
+      
+<ol>
+<li>
+<p>了解磁盘的物理和逻辑结构</p>
+</li>
+<li>
+<p>熟悉FAT32文件系统</p>
+</li>
+<li>
+<p>学会使用磁盘编辑软件</p>
+</li>
+<li>
+<p>了解文件删除、格式化的基本原理</p>
+</li>
+<li>
+<p>能够利用工具或者手工恢复被删除的文件</p>
+</li>
+</ol>
+<a id="more"></a>
+
+        <h3 id="13实验步骤及内容"   >
+          <a href="#13实验步骤及内容" class="heading-link"><i class="fas fa-link"></i></a>1.3实验步骤及内容</h3>
+      
+<p><strong>第一阶段：</strong></p>
+<p>熟悉WinHex的使用。</p>
+<p>n 熟悉磁盘工具的使用。</p>
+<p>n 利用WinHex查看物理磁盘和逻辑磁盘。</p>
+<p>n 了解WinHex中相关工具的用法。</p>
+<p><strong>第二阶段：</strong></p>
+<p>n 分析本地硬盘的主引导扇区</p>
+<p>n 利用磁盘编辑工具查看MBR磁盘分区并分析：</p>
+<p>n 主引导扇区由哪些部分组成？</p>
+<p>n 四个主分区项的内容各代表什么？</p>
+<p>n 分析主扩展分区表的结构。</p>
+<p>n 通过分区项来确定每个本地逻辑盘的位置以及大小，并画出本地硬盘的逻辑结构。</p>
+<p>n 每个本地盘的开始扇区位置，总扇区数，结束扇区位置，各扩展分区表扇区位置，保留空间数量。</p>
+<p>n  利用磁盘编辑工具查看GPT磁盘分区并分析</p>
+<p>n GPT分区结构与MBR的具体差异有哪些？</p>
+<p>n 主分区头所在扇区包括哪些重要内容，验证这些重要内容的有效性。</p>
+<p>n 通过分区节点分析自己硬盘的各分区信息。</p>
+<p><strong>第三阶段：</strong></p>
+<p>n  熟悉FAT32文件格式。</p>
+<p>n 用WinHex打开某个FAT32分区格式的逻辑盘。</p>
+<p>n 查看该逻辑盘的起始扇区，分析起始扇区中的相关字段（BPB:BIOS Parameter Block）。</p>
+<p>n 查看FAT1和FAT2的内容和大小。</p>
+<p>n 查看该逻辑盘的根目录区。</p>
+<p>n 查看某个文件的目录项结构和FAT链以及具体存储位置。</p>
+<p>n 在根目录下建立文本文件：test-学号后3位.txt，其中填充60K左右的文本字符保存（注意：先行存储其他数据使得该文件的首簇高位不为0）。</p>
+<p>n 查看该文件的目录项，对其进行分析，并得到该文件所在位置以及大小。</p>
+<p>n 查看首簇位置，并得到簇链表。通过簇链表查看该文件内容。</p>
+<p>n 记录首簇位置（14H-15H,1AH-1BH）和文件大小（1CH-1FH）。</p>
+<p><strong>第四阶段：</strong></p>
+<p>n 手工恢复被删除的文件</p>
+<p>n 删除前面所建立的文件。(del&amp;shift+del)</p>
+<p>n 利用WinHex在该文件所在盘符查找该.txt文件的目录项。</p>
+<p>n 查看目录项的变化。</p>
+<p>n 利用该残余目录项来计算被删除的文件所在的位置。</p>
+<p>n 手工恢复该文件（文件名、首簇高位、簇链表修复）。</p>
+<p><strong>课后习题思考：</strong></p>
+<p>n   在磁盘分区过程中，用户提供了哪些信息？分析分区工具的工作原理。</p>
+<p>n  高级格式化与低级格式化的具体原理和区别是什么？</p>
+<p>n 查找资料，对NTFS分区的总体结构进行分析，尝试对NTFS下删除的文件进行手工恢复。</p>
+<p>n   用数据粉碎工具（如金山、360、Strongdisk等）粉碎指定文件，分析其数据粉碎原理。</p>
+<p>n  通过分区表看到的分区字节数为何与资源管理器中看到的分区字节数有差异？</p>
+<p>n   如果删除的文件是长文件名，如何恢复所有文件名。</p>
+
+        <h3 id="14实验关键过程-数据及其分析"   >
+          <a href="#14实验关键过程-数据及其分析" class="heading-link"><i class="fas fa-link"></i></a>1.4实验关键过程、数据及其分析</h3>
+      
+
+        <h4 id="141-winhex的使用"   >
+          <a href="#141-winhex的使用" class="heading-link"><i class="fas fa-link"></i></a>1.4.1 WinHex的使用</h4>
+      
+<p>以管理员模式启动WinHex，在选项界面中选择要查看的磁盘，如图1.1所示</p>
+<p>​            <img src="https://i.loli.net/2020/09/26/kvCuXMUqwQ49FD1.png" alt="image-20200926231839438" /></p>
+<p>​               图<strong>1.1</strong> 启动WinHex</p>
+<p>在WinHex操作界面中，选择自己要查看的逻辑盘和物理盘，确定即可打开相应的磁盘查看，如图1.2所示 ，左上角显示的是磁盘的文件目录，左下角显示的是磁盘的数据区数据信息。</p>
+<p>​     <img src="https://i.loli.net/2020/09/26/5pcERn2Ay6rdFbP.png" alt="image-20200926231848471" /></p>
+<p>​                图<strong>1.2</strong> 利用WinHex查看磁盘</p>
+<p>由于磁盘快照生成较久，选择更新快照。</p>
+<p>在WinHex中主要使用的工具是进入指定的偏移或地址。选择导航,可以选择相应的功能，如图1.3所示</p>
+<p>​     <img src="https://i.loli.net/2020/09/26/DEyxN73pnqhiQmK.png" alt="image-20200926231858453" /></p>
+<p>​              图<strong>1.3</strong> WinHex导航工具的使用</p>
+<p>转到偏移量可以选择基地址以及偏移量跳转到自己想要到达的地址；跳至扇区可以通过扇区为单位进行跳转。文件记录功能主要用于文件恢复过程中，利用其跳转到簇链表相应的位置。</p>
+<p>在对磁盘进行修改之后，由于WinHex没有更新磁盘信息，需要重新对磁盘进行快照，如图1.4所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/2NxfwuLUX7SkKZs.png" alt="image-20200926231911378" /></p>
+<p>​               图<strong>1.4</strong> WinHex重新快照</p>
+
+        <h4 id="142-分析本地硬盘的主引导扇区gptmbr"   >
+          <a href="#142-分析本地硬盘的主引导扇区gptmbr" class="heading-link"><i class="fas fa-link"></i></a>1.4.2 分析本地硬盘的主引导扇区【GPT＋MBR】</h4>
+      
+<p>利用WinHex打开MBR分区形式的磁盘，如图2.1所示，从00开始的512个字节是硬盘的主引导扇区。</p>
+<p><img src="https://i.loli.net/2020/09/26/TirBOU1yCPbjchq.png" alt="image-20200926231923158" /></p>
+<p>​               图<strong>2.1</strong> 查看主引导扇区</p>
+<p>主引导扇区是硬盘第一个扇区，它由主引导记录(MBR),硬盘主分区表(DPT)和引导扇区标记(ID)三部分组成。</p>
+<p>主引导记录MBR：从0至多占用的0x1BDH一共446个字节，存放系统主引导程序。</p>
+<p>硬盘主分区表DPT:占用64个字节，0x1BEH – Ox1FDH , 它有四个分区项，每个项16个字节，最后8=4+4个字节存放相对扇区地址和该分区占用的扇区数量。</p>
+<p>通过WinHex自带的分区表-模板，查看物理硬盘的结构，如图2.2所示</p>
+<p>​            <img src="https://i.loli.net/2020/09/26/FLqvs8NZYUklRE6.png" alt="image-20200926231929898" /></p>
+<p>图<strong>2.2</strong> 分区表模板查看</p>
+<p>可以看到，前1B8个字节是其引导代码，从1BE开始是硬盘分区表，最后以55AA结尾。每一个分区表项的长度是16个字节。如图2.3所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/ID2Nmlb9Gx7Vjq6.png" alt="image-20200926231937004" /></p>
+<p>​            图<strong>2.3</strong> 分区表地址数据</p>
+<p>以第一个分区为例，分区表从80 20开始，到0F 00结束。00 0F A0 00表示其占有的扇区数，00 00 08 00代表其起始扇区(16进制)。0x800=2048,这与分区信息是对应的，如图2.4所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/LdG4KwltmkcYI91.png" alt="image-20200926231942449" /></p>
+<p>​             图<strong>2.4</strong> 分区第一扇区地址</p>
+<p>下面根据WinHex中分区扇区数量计算分区大小并与Windows计算机磁盘管理进行验证。</p>
+<p>以E盘为例，根据图2.3，其具有0x00513800=5322752个扇区，一个扇区512字节，因此具有2661376KB=2599MB=2.53GB，与图2.4分区E是对应的。</p>
+<p>扩展分区：主分区表只支持4个分区项目，当分区更多时无法满足，因此需要扩展分区表EBR。要使用扩展分区，首先，主分区表中必须要有一个基本扩展分区项，用于指出所有扩展分区总体信息。所有的扩展逻辑盘全在这个基本扩展分区项指出的主扩展分区中。其结构如图2.5所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/gVezuUsHtiBOCbZ.png" alt="image-20200926231950488" /></p>
+<p>图<strong>2.5</strong> 扩展分区和逻辑盘</p>
+<p>查看GPT分区，首先添加一块硬盘，进入cmd，输入命令diskpart，显示挂载在主机上的磁盘，进入磁盘转换。输入命令将其转换为GPT分区格式</p>
+<p><img src="https://i.loli.net/2020/09/26/5ksNXwEJWKTO9qv.png" alt="image-20200926231957708" /></p>
+<p>图<strong>2.6</strong> 转换磁盘分区格式</p>
+<p>使用WinHex打开硬盘1，如图2.7所示</p>
+<p><img src="https://i.loli.net/2020/09/26/Jmgxs4LqiXvnhu5.png" alt="image-20200926232005449" /></p>
+<p>图<strong>2.7</strong> GPT磁盘信息</p>
+<p>利用WinHex自带的分区表模板，查看GPT磁盘的分区表信息，如图2.8所示</p>
+<p>​     <img src="https://i.loli.net/2020/09/26/BJ1VLlEnogSQYjw.png" alt="image-20200926232036170" /></p>
+<p>​                          图<strong>2.8</strong> GPT磁盘分区表</p>
+<p>可以看到从1BE-1CA是磁盘保护性的主引导记录MBR，从0x200=512开始是磁盘的分区表。从0x400=1024开始是CPT磁盘的第一个分区表项。</p>
+<p>分区表项中存储了对应分区的起始LBA，LBA即逻辑地址块，是GPT分区形式的基本单位，每一个LBA的大小也是512个字节。</p>
+<p>分区表项1中，起始LBA块是34，终止LBA块是65569，下面验证分区1的大小：</p>
+<p>由分区表项信息，分区1一共有65569-34+1=65536个LBA块，因此有32768KB=32MB，对比图2.7分区1信息，可以发现正确。</p>
+<p>GPT与MBR分区的具体差异：</p>
+<p>​    1、MBR分区表最多只能识别2TB左右的空间，大于2TB的容量将无法识别从而导致硬盘空间浪费；GPT分区表则能够识别2TB以上的硬盘空间。</p>
+<p>2、MBR分区表最多只能支持4个主分区或三个主分区+1个扩展分区(逻辑分区不限制)；GPT分区表在Windows系统下可以支持128个主分区。</p>
+<p>3、在MBR中，分区表的大小是固定的；在GPT分区表头中可自定义分区数量的最大值，也就是说GPT分区表的大小不是固定的。</p>
+
+        <h4 id="143-fat32文件系统格式分析"   >
+          <a href="#143-fat32文件系统格式分析" class="heading-link"><i class="fas fa-link"></i></a>1.4.3 FAT32文件系统格式分析</h4>
+      
+<p>用WinHex打开一个FAT32格式的逻辑盘，如图3.1所示</p>
+<p><img src="https://i.loli.net/2020/09/26/Fi4BEOPnSe7A3c2.png" alt="image-20200926232049173" /></p>
+<p>​              图<strong>3.1</strong> FAT32磁盘</p>
+<p>通过WinHex自带的引导扇区模板，查看该逻辑盘的起始扇区，分析起始扇区中的相关字段，如图3.2所示。</p>
+<p>0-3是其固有的字段，从0xB开始，到0x20是该逻辑盘对应的BPB(BIOS Parameter Block，BIOS参数块)字段。通过BPB可以查看这个磁盘的基本信息。如每个扇区的字节数，这里可以看到是512字节，每个簇有8个扇区。</p>
+<p>FAT32 Selection是该FAT32文件系统的一个表，从表中可以看到每一个FAT它的扇区数是5183，最后在偏移量1FE处也是以55AA结尾。</p>
+<p><img src="https://i.loli.net/2020/09/26/wKZADkpriBtHXYS.png" alt="image-20200926232058111" /></p>
+<p>​               图<strong>3.2</strong> 引导扇区模板</p>
+<p>在FAT32文件系统的磁盘中，FAT1和FAT2是存储簇链表的地方，由于FAT区十分重要，故存放两个，作为备份。</p>
+<p>在根目录区，建立了每个文件的索引，并记录了每一个文件相关的信息。用WinHex模板打开根目录查看文件，如图3.3所示</p>
+<p><img src="https://i.loli.net/2020/09/26/TLaQ7J2qz5uvGDk.png" alt="image-20200926232113509" /></p>
+<p>​                      图<strong>3.3</strong> 查看根目录</p>
+<p>本磁盘中存储了hello25.exe文件，通过根目录模板，可以查看它的文件名是HELLO25，扩展名是EXE，创建时间是9/22 23:55，簇高位号是0，文件大小是2560Bytes=2.5KB等等信息。</p>
+<p>在根目录下建立文本文件：test-学号后3位.txt，其中填充60KB左右的文本字符保存。更新磁盘快照，利用WinHex查看txt文件的簇，在左上角文件管理中右键选择该文件，导航-&gt;列出的簇，并取消缩短连续簇链表，如图3.4所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/X3IHpRa7qVltNoJ.png" alt="image-20200926232216972" /></p>
+<p>​																						图<strong>3.4</strong> 查看根目录</p>
+<p>可以看到txt文件的首簇号是506，总共用了13个簇来存储。根据Windows文件属性可以看到，文件实际大小是50.7KB，但是占用了52KB，而图3.4显示文件占用了13个簇，由前面的信息，本系统一个簇是8个扇区，4KB，13个簇正是52KB，这就是文件实际的占用大小。50.7KB文件需占用13个簇才可以存下。</p>
+<p>下面根据文件占用的簇跳转到文件内容的位置。在WinHex中选择导航-&gt;跳转到FAT记录-&gt;填写首簇号506，跳转到簇链表对应位置。由于是FAT32系统，簇链表中每个结点大小是4个字节，文件占用13个簇，在簇链表中便占据52个字节，如图3.5所示，高亮部分即txt文件的占用的簇链表。</p>
+<p>​								 <img src="https://i.loli.net/2020/09/26/AGgKlyOqrDaTLZb.png" alt="image-20200926232234479" /></p>
+<p>​																		图<strong>3.5</strong> 文件簇链表</p>
+<p>注意到簇链表首结点值是0x000001FB=507,而文件的首簇号是506，这是因为在FAT32文件系统中，FAT表是连续存储的，访问首簇号结点对应的值默认是首簇号+1.</p>
+<p>记录下文件的簇链表，在WinHex中选择导航-&gt;跳至扇区，填写簇506/507，可以发现跳转到txt文件存储处，如图3.6所示。</p>
+<p>​						 <img src="https://i.loli.net/2020/09/26/l1hRGqpKba7WPS3.png" alt="image-20200926232252109" /></p>
+<p>​                            												图<strong>3.6</strong> 文件簇链表</p>
+<p>根据目录项的定义，一个目录项占据32个字节，00H-07H字节是文件的正名，1CH-1FH是文件的占据的字节大小，打开WinHex，利用模板跳转到test-001.txt的目录项所在的位置，如图3.7所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/SDBtVYF8qM7Ej9W.png" alt="image-20200926232312698" /></p>
+<p>​																			图<strong>3.7</strong> 查看目录项</p>
+<p>可以看到第1AH-1BH=26-27字节是(逆序)  01FA，14H-15H=20-21字节是 0000，组成的首簇号是0x000001FA=506，正是该文件之前查看的首簇号，说明观察正确。而1CH-1FH=28-31是文件占据的字节大小，0x00 00 CB 10=51984Byte=50.765625KB，与文件系统中显示的大小50.8KB保持一致。说明从目录项中正确读取到了文件信息。</p>
+
+        <h4 id="144-手工恢复被删除的文件"   >
+          <a href="#144-手工恢复被删除的文件" class="heading-link"><i class="fas fa-link"></i></a>1.4.4 手工恢复被删除的文件</h4>
+      
+<p>首先使用Del键进行回收站删除，重新建立磁盘快照。在WinHex中查看文件目录，可以看到事实上文件及其对应的数据仍然还存在，如图4.1所示。</p>
+<p><img src="https://i.loli.net/2020/09/26/RKHYTZeI3LSUbC7.png" alt="image-20200926232327821" /></p>
+<p>​                    图<strong>4.1</strong> 回收站删除后查看文件</p>
+<p>跳转至目录表对应位置，如图4.2所示，</p>
+<p><img src="https://i.loli.net/2020/09/26/OfCKGvt6o3Raln2.png" alt="image-20200926232335457" /></p>
+<p>​                      图<strong>4.2</strong> 回收站删除后查看目标表项</p>
+<p>将图4.2和图3.7进行对比，发现目录项首字节在文件删除后被进行了修改成E5，表示被删除标记。选择E5所在字节，右键编辑-&gt;填充选块，将E5随便修改成任意数据，选择文件-&gt;保存扇区，可以发现文件恢复，如图4.3所示，但是文件名会根据修改数据改变首字母。至此，完成了回收站文件删除后的文件恢复。</p>
+<p><img src="https://i.loli.net/2020/09/26/XGKcARIVZLi2leF.png" alt="image-20200926232344488" /></p>
+<p>​                      图<strong>4.3</strong> 恢复文件</p>
+<p>再使用shift+delete删除文件EXP.TXT，转到目录项如图4.4所示</p>
+<p><img src="https://i.loli.net/2020/09/26/zLq9jHMxaudpf6h.png" alt="image-20200926232352588" /></p>
+<p>​                         图<strong>4.4 删除后目录项</strong></p>
+<p>可以看到目录项也被修改，首字节被修改为E5，首簇号高16位清0，但是复原后并不能打开文件，因为簇链表数据已经丢失.</p>
+<p>查看簇链表，如图4.5所示</p>
+<p><img src="https://i.loli.net/2020/09/26/SYKNyqFkOj2DdCb.png" alt="image-20200926232402349" /></p>
+<p>​                               图<strong>4.5</strong></p>
+<p>可以发现簇链表对应的位置已经全部清0，要恢复文件，必须恢复簇链表再修改目录项。因此现在根据其相邻的目录项来确定其首簇号。可以看到前一个目录项的首簇号是0x00040152，文件的字节大小是0x A00，占用一个簇，因此恢复文件的首簇号是0x00040153，因此依次将图4.5中的项目进行修复，如图4.6所示</p>
+<p><img src="https://i.loli.net/2020/09/26/vzi2YO3mdkuol6B.png" alt="image-20200926232408684" /></p>
+<p>​                            图<strong>4.6</strong></p>
+<p>将目录项被修改的首字节和首簇高位修复。如图4.7所示</p>
+<p><img src="https://i.loli.net/2020/09/26/u4Fkl5XHVBdiGLg.png" alt="image-20200926232415456" /></p>
+<p>​                            图<strong>4.7</strong></p>
+<p>保存，打开文件夹，发现文件恢复成功。如图4.8所示</p>
+<p><img src="https://i.loli.net/2020/09/26/cgeoaFbXxDirQ3W.png" alt="image-20200926232421687" /></p>
+<p>​                          图<strong>4.8</strong></p>
+
+        <h4 id="145-课后习题思考"   >
+          <a href="#145-课后习题思考" class="heading-link"><i class="fas fa-link"></i></a>1.4.5 课后习题思考</h4>
+      
+<p>在磁盘分区过程中，用户提供了要分区的大小，分区的文件格式，盘符等信息。利用分区大小，系统构建新的逻辑盘，利用指定的文件格式，对分区进行格式化。</p>
+<p>低级格式化就是将空白的磁盘划分出柱面和磁道,再将磁道划分为若干个扇区,每个扇区又划分出标识部分ID、间隔区GAP和数据区DATA等。可见,低级格式化是高级格式化之前的一件工作, 高级格式化就是清除硬盘上的数据、生成引导区信息、初始化FAT表、标注逻辑坏道等。</p>
+<p>数据粉碎一般会对文件所在的位置进行重复擦写，粉碎文件之后，利用winhex查看对应偏移量数据可以发现数据已经被完全改写。</p>
+<p>文件名过长时恢复文件后需要手工查看文件数据区的文件名进行恢复</p>
+<p>1、计算机是以二进制来记录数据的，所以单位从K到M再到G是以1024来进级的。而人们习惯了十进制，以1000来进级。这样造成了显示容量和实际一样。当然，也有些不良厂家以1000为进级计算标注容量，使实际容量缩水。</p>
+<p>2、硬盘在分区和格式化时会占用一定的存储空间来保存分区等一些信息，所以实际可用容量就会小于分区的容量。</p>
+<p>3、因为硬盘的分区一般都是按扇区为单位分的（每个扇区的大小一般从几KB到几百KB，不同硬盘和格式不完全相同），所以人为输入的分区容量不一定是扇区的整数倍，系统会自动取近似的容量来划分分区。</p>
+
+        <h3 id="15实验体会和拓展思考"   >
+          <a href="#15实验体会和拓展思考" class="heading-link"><i class="fas fa-link"></i></a>1.5实验体会和拓展思考</h3>
+      
+<p>通过了解磁盘格式，使我对系统对于磁盘的管理有了全新的认识，之前我曾经以为磁盘分区与分类文件夹差不多，但是通过实验让我深刻理解了分区的机理和作用。对于簇链表的学习也使我理解了文件删除和恢复的机理，明白了恶意病毒破坏数据的手段。对于FAT32,NTFS等文件系统的学习使我了解到了不同文件系统各自的特点，以及在今后如何正确为自己的电脑设置合适的文件系统。</p>
+<p>通过学习磁盘格式与数据恢复，使我对如何攻击与防御恶意软件破坏数据指明了一条方向，也促使我今后提升对于文件保护的意识。而数据恢复实验可以帮助我在紧急情况下恢复自己的重要数据</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://www.neptunia.top">Aaron</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://www.neptunia.top/2022/11/05/DiskFormatANDataRecover/">https://www.neptunia.top/2022/11/05/DiskFormatANDataRecover/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/Windows/">Windows</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://www.neptunia.top/tags/%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8/">软件安全</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2022/11/05/hello-world/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Hello World</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2022/11/05/CentOS_OpenVPN/"><span class="paginator-prev__text">Centos 7安装并配置OpenVPN</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C1-%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="toc-number">1.</span> <span class="toc-text">
+          实验1 磁盘格式与数据恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11%E5%AE%9E%E9%AA%8C%E5%90%8D%E7%A7%B0"><span class="toc-number">1.1.</span> <span class="toc-text">
+          1.1实验名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">1.2.</span> <span class="toc-text">
+          1.2实验目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E5%8F%8A%E5%86%85%E5%AE%B9"><span class="toc-number">1.3.</span> <span class="toc-text">
+          1.3实验步骤及内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14%E5%AE%9E%E9%AA%8C%E5%85%B3%E9%94%AE%E8%BF%87%E7%A8%8B-%E6%95%B0%E6%8D%AE%E5%8F%8A%E5%85%B6%E5%88%86%E6%9E%90"><span class="toc-number">1.4.</span> <span class="toc-text">
+          1.4实验关键过程、数据及其分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#141-winhex%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">
+          1.4.1 WinHex的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#142-%E5%88%86%E6%9E%90%E6%9C%AC%E5%9C%B0%E7%A1%AC%E7%9B%98%E7%9A%84%E4%B8%BB%E5%BC%95%E5%AF%BC%E6%89%87%E5%8C%BAgptmbr"><span class="toc-number">1.4.2.</span> <span class="toc-text">
+          1.4.2 分析本地硬盘的主引导扇区【GPT＋MBR】</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#143-fat32%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90"><span class="toc-number">1.4.3.</span> <span class="toc-text">
+          1.4.3 FAT32文件系统格式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#144-%E6%89%8B%E5%B7%A5%E6%81%A2%E5%A4%8D%E8%A2%AB%E5%88%A0%E9%99%A4%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.4.</span> <span class="toc-text">
+          1.4.4 手工恢复被删除的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#145-%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E6%80%9D%E8%80%83"><span class="toc-number">1.4.5.</span> <span class="toc-text">
+          1.4.5 课后习题思考</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15%E5%AE%9E%E9%AA%8C%E4%BD%93%E4%BC%9A%E5%92%8C%E6%8B%93%E5%B1%95%E6%80%9D%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">
+          1.5实验体会和拓展思考</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://s2.loli.net/2022/04/01/BD2WfjUMlS7FxTv.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="mailto:waldenth@outlook.com" target="_blank" rel="noopener" data-popover="outlook-email" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/31914896" target="_blank" rel="noopener" data-popover="Bilibili" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-tv"></i></span></a><a class="sidebar-ov-social-item" href="https://steamcommunity.com/profiles/76561198873347160/" target="_blank" rel="noopener" data-popover="steam" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-steam"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2021008806号-1</a></span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" rel="stylesheet" type="text/css"><link href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css"><script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/copy-tex.min.js"></script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '3e452adc1e51ac23d97a',
+    clientSecret: 'c2aa83661950454ec8b8efd85c75de2c65337624',
+    repo: 'https://github.com/Waldenth/Waldenth.github.io',
+    owner: 'Waldenth',
+    admin: ['Waldenth'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.1.1"></script><script src="/js/stun-boot.js?v=2.1.1"></script><script src="/js/scroll.js?v=2.1.1"></script><script src="/js/header.js?v=2.1.1"></script><script src="/js/sidebar.js?v=2.1.1"></script><script type="application/json" src="/search.json"></script></body></html>

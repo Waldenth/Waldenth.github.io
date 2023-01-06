@@ -29,275 +29,7 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Aaron的个人空间</div><div class="header-banner-info__subtitle">Welcome</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/10/16/vscode_headfile/">vscode头文件路径配置</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-10-16</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-16</span></span></div></header><div class="post-body"><div class="post-excerpt">
-        <h2 id="vscode头文件路径"   >
-          <a href="#vscode头文件路径" class="heading-link"><i class="fas fa-link"></i></a>vscode头文件路径</h2>
-      
-<figure class="highlight json"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Linux&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;includePath&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;$&#123;default&#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/**&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/src&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/deps&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/src/observer&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">&quot;compilerPath&quot;</span>: <span class="string">&quot;/usr/bin/gcc&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;cStandard&quot;</span>: <span class="string">&quot;gnu17&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;intelliSenseMode&quot;</span>: <span class="string">&quot;linux-gcc-x64&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
-<p>/* 是拦截所有的文件夹，不包含子文件夹<br />
-/** 是拦截所有的文件夹及里面的子文件夹</p>
-<p>相当于/*只有后面一级</p>
-<p>/** 可以包含多级</p>
-</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/10/07/CentOS_OpenVPN/">Centos 7安装并配置OpenVPN</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-10-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-02-20</span></span></div></header><div class="post-body"><div class="post-excerpt">
-        <h2 id="1-安装openvpn"   >
-          <a href="#1-安装openvpn" class="heading-link"><i class="fas fa-link"></i></a>1 安装OpenVPN</h2>
-      
-<p>开启<code>epel</code>源，并采用<code>yum</code>的方式安装<code>openvpn</code>：</p>
-<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y epel-release</span><br><span class="line">$ yum update -y</span><br><span class="line">$ yum install -y openssl lzo pam openssl-devel lzo-devel pam-devel</span><br><span class="line">$ yum install -y easy-rsa</span><br><span class="line">$ yum install -y openvpn</span><br></pre></td></tr></table></div></figure>
-
-        <h2 id="2-配置openvpn服务器"   >
-          <a href="#2-配置openvpn服务器" class="heading-link"><i class="fas fa-link"></i></a>2 配置OpenVPN服务器</h2>
-      
-
-        <h3 id="21-创建配置过程中需要使用的目录"   >
-          <a href="#21-创建配置过程中需要使用的目录" class="heading-link"><i class="fas fa-link"></i></a>2.1 创建配置过程中需要使用的目录</h3>
-      
-<ol>
-<li>创建日志存放目录：<code>mkdir -p /var/log/openvpn/</code></li>
-<li>创建用户管理目录：<code>mkdir -p /etc/openvpn/server/user</code></li>
-<li>配置目录权限：<code>chown openvpn:openvpn /var/log/openvpn</code></li>
-</ol>
-
-        <h3 id="22-生成证书"   >
-          <a href="#22-生成证书" class="heading-link"><i class="fas fa-link"></i></a>2.2 生成证书</h3>
-      
-<p>通过<code>yum</code>方式安装的<code>easy-rsa</code>是3.x版本，可直接从安装目录中拷贝一份工具到<code>/etc/openvpn</code>中</p>
-<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp -rf /usr/share/easy-rsa/3.0.8 /etc/openvpn/server/easy-rsa</span><br></pre></td></tr></table></div></figure>
-
-        <h4 id="221-为服务器端创建证书"   >
-          <a href="#221-为服务器端创建证书" class="heading-link"><i class="fas fa-link"></i></a>2.2.1 为服务器端创建证书</h4>
-      
-<ol>
-<li>
-<p>切换至<code>/etc/openvpn/server/easy-rsa</code>目录</p>
-</li>
-<li>
-<p>使用命令<code>./easyrsa init-pki</code>进行初始化，会在当前目录创建PKI目录，用来存储一些中间变量和最终生成的证书</p>
-</li>
-<li>
-<p>使用命令<code>./easyrsa build-ca nopass</code>创建证书</p>
-</li>
-<li>
-<p>生成服务器端证书：<code>./easyrsa build-server-full server nopass</code></p>
-</li>
-<li>
-<p>创建Diffie-Hellman：<code>./easyrsa gen-dh</code>，确保key可以穿越不安全网络的命令</p>
-</li>
-<li>
-<p>整理服务器端证书：</p>
-<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /etc/openvpn/server</span><br><span class="line">$ cp -a pki/ca.crt /etc/openvpn/server/</span><br><span class="line">$ cp -a pki/private/server.key /etc/openvpn/server</span><br><span class="line">$ cp -a pki/issued/server.crt /etc/openvpn/server</span><br><span class="line">$ cp -a pki/dh.pem /etc/openvpn/server</span><br><span class="line">$ cp -a ta.key /etc/openvpn/server</span><br></pre></td></tr></table></div></figure>
-</li>
-</ol>
-
-        <h4 id="222-为客户端创建证书"   >
-          <a href="#222-为客户端创建证书" class="heading-link"><i class="fas fa-link"></i></a>2.2.2 为客户端创建证书</h4>
-      
-<p>生成无密码的客户端证书：<code>./easyrsa build-client-full client nopass</code><br />
-生成带密码的客户端证书：<code>./easyrsa build-client-full yourown</code>，会提示让你输入密码，记住设置的密码，在连接OpenVPN服务端时会使用，可多次操作该步骤为多个用户创建证书</p>
-
-        <h4 id="223-创建takey"   >
-          <a href="#223-创建takey" class="heading-link"><i class="fas fa-link"></i></a>2.2.3 创建ta.key</h4>
-      
-<p>为了提高<code>OpenVPN</code>的安全性，可以创建<code>ta.key</code>：<code>openvpn --genkey --secret ta.key</code>，能够加强认证方式，防止攻击</p>
-
-        <h3 id="23-编辑配置文件"   >
-          <a href="#23-编辑配置文件" class="heading-link"><i class="fas fa-link"></i></a>2.3 编辑配置文件</h3>
-      
-<ol>
-<li>拷贝<code>sample.conf</code>到<code>/etc/openvpn</code>作为起始配置文件：<code>cp /usr/share/doc/openvpn-*/sample/sample-config-files/server.conf /etc/openvpn/server</code></li>
-<li>使用<code>vi /etc/openvpn/server.conf</code>命令编辑配置文件 (位置可能不一定是这里，可能是<code>/etc/openvpn/server/server.conf</code>)
-<ol>
-<li>将25行修改为：<code>local 0.0.0.0</code></li>
-<li>取消35行注释，修改效果：<code>proto tcp</code></li>
-<li>注释36行，修改效果：<code>; proto udp</code></li>
-<li>修改78行，设置ca.crt的路径：<code>ca /etc/openvpn/server/ca.crt</code></li>
-<li>修改79行，设置server.crt的路径：<code>cert /etc/openvpn/server/server.crt</code></li>
-<li>修改80行，设置server.key的路径：<code>key /etc/openvpn/server/server.key</code></li>
-<li>修改85行，设置dh的路径：<code>dh /etc/openvpn/server/dh.pem</code></li>
-<li>修改141行：<code>push &quot;route 10.10.10.0 255.255.255.0&quot;</code></li>
-<li>修改244行：<code>tls-auth /etc/openvpn/server/ta.key 0</code></li>
-<li>取消257行注释：<code>compress lz4-v2</code></li>
-<li>取消258行注释：<code>push &quot;compress lz4-v2&quot;</code></li>
-<li>取消274、275行注释</li>
-<li>取消296行注释，并修改日志文件地址：<code>log /var/log/openvpn.log</code><br />
-注释315行</li>
-<li>其他配置内容保持默认即可</li>
-</ol>
-</li>
-</ol>
-
-        <h2 id="3-启动openvpn并配置开机启动"   >
-          <a href="#3-启动openvpn并配置开机启动" class="heading-link"><i class="fas fa-link"></i></a>3 启动OpenVPN并配置开机启动</h2>
-      
-<ol>
-<li>使用命令<code>vi /usr/lib/systemd/system/openvpn-server\@.service</code>编辑服务文件，修改<code>ExecStart</code>的值为<code>ExecStart=/usr/sbin/openvpn --status %t/openvpn-server/status-%i.log --status-version 2 --suppress-timestamps --config server.conf</code></li>
-<li>修改服务文件的名称<code>cp /usr/lib/systemd/system/openvpn-server\@.service /usr/lib/systemd/system/openvpn-service.service</code></li>
-<li>启动OpenVPN：<code>systemctl start openvpn-service</code></li>
-<li>配置OpenVPN开机启动：<code>sysemctl enable openvpn-service</code></li>
-</ol>
-
-        <h2 id="4-配置防火墙"   >
-          <a href="#4-配置防火墙" class="heading-link"><i class="fas fa-link"></i></a>4 配置防火墙</h2>
-      
-<p>配置防火墙，开启1194端口：</p>
-<p>也可通过云服务WEB控制台</p>
-<figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ firewall-cmd --permanent --add-masquerade</span><br><span class="line">$ firewall-cmd --permanent --add-service=openvpn</span><br><span class="line">$ firewall-cmd --permanent --add-port=1194/tcp</span><br><span class="line">$ firewall-cmd --permanent --direct --passthrough ipv4 -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE</span><br><span class="line">$ firewall-cmd --reload</span><br></pre></td></tr></table></div></figure>
-
-        <h2 id="5-windows客户端配置"   >
-          <a href="#5-windows客户端配置" class="heading-link"><i class="fas fa-link"></i></a>5 Windows客户端配置</h2>
-      
-<ol>
-<li>
-<p>从/etc/openvpn/server/easy-rsa拷贝ta.key文件</p>
-</li>
-<li>
-<p>从/etc/openvpn/server/easy-rsa/pki/private拷贝客户端的.key文件，例如：jiaoxn.key</p>
-</li>
-<li>
-<p>从/etc/openvpn/server/easy-rsa/pki/issued拷贝客户端的.crt文件，例如：jiaoxn.crt</p>
-</li>
-<li>
-<p>从/etc/openvpn/server/easy-rsa/pki拷贝客户端的ca.crt文件</p>
-</li>
-<li>
-<p>Windows系统安装OpenVPN客户端后，打开配置文件夹（默认是：C:\Program Files\OpenVPN\config），新建文件夹（例如：client），拷贝前面4个文件到新建的文件夹</p>
-</li>
-<li>
-<p>在第5步新建的文件夹中，创建client.ovpn文件（文件名和文件夹名称一致），配置内容如下，其中yourown.crt、yourown.key替换成对应的文件名client</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">dev tun</span><br><span class="line">proto tcp</span><br><span class="line">remote 192.168.1.70 1194</span><br><span class="line">resolv-retry infinite</span><br><span class="line">nobind</span><br><span class="line">;user nobody</span><br><span class="line">;group nobody</span><br><span class="line">persist-key</span><br><span class="line">persist-tun</span><br><span class="line">ca ca.crt</span><br><span class="line">cert yourown.crt</span><br><span class="line">key yourown.key</span><br><span class="line">remote-cert-tls server</span><br><span class="line">tls-auth ta.key 1</span><br><span class="line">cipher AES-256-CBC</span><br><span class="line">compress lz4-v2</span><br><span class="line">verb 3</span><br><span class="line">;mute 20</span><br></pre></td></tr></table></div></figure>
-</li>
-<li>
-<p>右键<code>VPN</code>图标，选择刚刚配置的文件夹名称，点击“连接”</p>
-</li>
-</ol>
-
-        <h2 id="8-nat转发"   >
-          <a href="#8-nat转发" class="heading-link"><i class="fas fa-link"></i></a>8 NAT转发</h2>
-      
-<p>（1）当你安装好了openvpn时候，他会提供一个server配置的文件例子，在/usr/share/doc/openvpn-2.3.2/sample/sample-config-files 下会有一个server.conf文件，我们将这个文件复制到/etc/openvpn</p>
-<p>[root@along ~]# rpm -ql openvpn |grep server.conf</p>
-<p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/1216496-20180123125125162-474273153.png" alt="img" /></p>
-<p>[root@along ~]# cp /usr/share/doc/openvpn-2.4.4/sample/sample-config-files/server.conf /etc/openvpn</p>
-<p>（2）修改配置文件</p>
-<p>[root@along ~]# vim /etc/openvpn/server.conf</p>
-<p>[root@along ~]# grep ‘<sup>[</sup>#|;]’ /etc/openvpn/server.conf 修改的地方如下：</p>
-   <figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">local 0.0.0.0     #监听地址</span><br><span class="line">port 1194     #监听端口</span><br><span class="line">proto tcp     #监听协议</span><br><span class="line">dev tun     #采用路由隧道模式</span><br><span class="line">ca &#x2F;etc&#x2F;openvpn&#x2F;ca.crt      #ca证书路径</span><br><span class="line">cert &#x2F;etc&#x2F;openvpn&#x2F;server.crt       #服务器证书</span><br><span class="line">key &#x2F;etc&#x2F;openvpn&#x2F;server.key  # This file should be kept secret 服务器秘钥</span><br><span class="line">dh &#x2F;etc&#x2F;openvpn&#x2F;dh.pem     #密钥交换协议文件</span><br><span class="line">server 10.8.0.0 255.255.255.0     #给客户端分配地址池，注意：不能和VPN服务器内网网段有相同</span><br><span class="line">ifconfig-pool-persist ipp.txt</span><br><span class="line">push &quot;redirect-gateway def1 bypass-dhcp&quot;      #给网关</span><br><span class="line">push &quot;dhcp-option DNS 8.8.8.8&quot;        #dhcp分配dns</span><br><span class="line">client-to-client       #客户端之间互相通信</span><br><span class="line">keepalive 10 120       #存活时间，10秒ping一次,120 如未收到响应则视为断线</span><br><span class="line">comp-lzo      #传输数据压缩</span><br><span class="line">max-clients 100     #最多允许 100 客户端连接</span><br><span class="line">user openvpn       #用户</span><br><span class="line">group openvpn      #用户组</span><br><span class="line">persist-key</span><br><span class="line">persist-tun</span><br><span class="line">status &#x2F;var&#x2F;log&#x2F;openvpn&#x2F;openvpn-status.log</span><br><span class="line">log         &#x2F;var&#x2F;log&#x2F;openvpn&#x2F;openvpn.log</span><br><span class="line">verb 3</span><br></pre></td></tr></table></div></figure>
-<p>每个项目都会由一大堆介绍,上述修改，openvpn提供的server.conf已经全部提供，我们只需要去掉前面的注释#，然后修改我们自己的有关配置</p>
-<p>（3）配置后的设置</p>
-<p>[root@along ~]# mkdir /var/log/openvpn</p>
-<p>[root@along ~]# chown -R openvpn.openvpn /var/log/openvpn/</p>
-<p>[root@along ~]# chown -R openvpn.openvpn /etc/openvpn/*</p>
-<p>​</p>
-
-        <h2 id="9-iptables-设置nat-规则和打开路由转发"   >
-          <a href="#9-iptables-设置nat-规则和打开路由转发" class="heading-link"><i class="fas fa-link"></i></a>9 iptables 设置nat 规则和打开路由转发</h2>
-      
-<p>[root@along ~]# iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j MASQUERADE (?)</p>
-<p><strong>iptables -t nat -A POSTROUTING -s 192.168.19.0/24 -o eth0 -j MASQUERADE</strong></p>
-<p>[root@along ~]# iptables -vnL -t nat</p>
-<p>[root@along ~]# vim /etc/sysctl.conf //打开路由转发</p>
-<p>net.ipv4.ip_forward = 1</p>
-<p>[root@along ~]# sysctl -p</p>
-<p>​    <strong>删除1号转发规则</strong></p>
-<p><code>iptables -t nat -D POSTROUTING 1</code></p>
-<p>​	开启openvpn 服务</p>
-<p>[root@along ~]# openvpn /etc/openvpn/server.conf 开启服务</p>
-<p>[root@along ~]# ss -nutl |grep 1194</p>
-<p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/1216496-20180123125125350-1344086972.png" alt="img" /></p>
-<p>如果开启后没有打开1194 端口，说明开启服务失败，可能是配置文件有错，也有可能是权限不够，自己查询日志解决。</p>
-
-        <h2 id="10-ping通但是无法http"   >
-          <a href="#10-ping通但是无法http" class="heading-link"><i class="fas fa-link"></i></a>10 ping通但是无法http</h2>
-      
-<p>该问题乍一看以为是openssh 问题和Openvpn自身的问题。ping能通说明网络是通的，我们快速判断问题就需要用到tcpdump抓包工具了。从如下截图看是服务器自身不回包，所以问题原因发生在服务器自身。</p>
-<p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/%E4%B8%8B%E8%BD%BD.jpg" alt="下载" /></p>
-
-        <h3 id="102-防火墙问题关闭防火墙在测试发现问题依旧存在"   >
-          <a href="#102-防火墙问题关闭防火墙在测试发现问题依旧存在" class="heading-link"><i class="fas fa-link"></i></a>10.2 防火墙问题，关闭防火墙在测试发现问题依旧存在。</h3>
-      
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></div></figure>
-
-        <h3 id="103-selinux问题检查selinux相关设置"   >
-          <a href="#103-selinux问题检查selinux相关设置" class="heading-link"><i class="fas fa-link"></i></a>10.3 selinux问题，检查selinux相关设置。</h3>
-      
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@app1-192-168-10-80 ~]# setenforce 0</span><br><span class="line">[root@app1-192-168-10-80 ~]# getenforce </span><br><span class="line">Disabled</span><br></pre></td></tr></table></div></figure>
-<p>如上都操作后发现问题依然，这就不能忍了，必须得上百度下或者谷歌了。</p>
-
-        <h3 id="问题原因"   >
-          <a href="#问题原因" class="heading-link"><i class="fas fa-link"></i></a>问题原因</h3>
-      
-<p>原理：问题出在了 tcp 三次握手，ping 的通 icmp ok ，http ssh mysql 都不 ok。经过nat之后，如果前面相同的端口被使用过，且时间戳大于这个链接发出的syn中的时间戳，服务器上就会忽略掉这个syn，不返会syn-ack消息，表现为用户无法正常完成tcp3次握手，从而不能打开web页面。在业务闲时，如果用户nat的端口没有被使用过时，就可以正常打开；业务忙时，nat端口重复使用的频率高，很难分到没有被使用的端口，从而产生这种问题。</p>
-<p>只有客户端和服务端都开启时间戳的情况下，才会出现能ping通不能建立tcp三次握手的情况</p>
-
-        <h4 id="问题解决办法"   >
-          <a href="#问题解决办法" class="heading-link"><i class="fas fa-link"></i></a>问题解决办法</h4>
-      
-<p>修改 /etc/sysctl.conf 中的如下两个配置，在测试就可以正常访问了。</p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_timestamps &#x3D; 0</span><br><span class="line">net.ipv4.tcp_tw_recycle &#x3D; 0</span><br></pre></td></tr></table></div></figure>
-<p>sysctl -p 生效</p>
-
-        <h3 id="tcp不行就换udp吧"   >
-          <a href="#tcp不行就换udp吧" class="heading-link"><i class="fas fa-link"></i></a>TCP不行就换UDP吧</h3>
-      
-<p>无语了</p>
-<p><strong>附：如上功能在什么环境下会用到。</strong></p>
-<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">今天用php连接最近新开发的一个服务做测试，发现命令行打印出：Cannot assign requested address</span><br><span class="line"></span><br><span class="line">网上找了下原因，大致上是由于客户端频繁的连服务器，由于每次连接都在很短的时间内结束，导致很多的TIME_WAIT，以至于用光了可用的端 口号，所以新的连接没办法绑定端口，即“Cannot assign requested address”。是客户端的问题不是服务器端的问题。通过netstat，的确看到很多TIME_WAIT状态的连接。</span><br><span class="line"></span><br><span class="line">client端频繁建立连接，而端口释放较慢，导致建立新连接时无可用端口。</span><br><span class="line"></span><br><span class="line">网上的解决方法：</span><br><span class="line"></span><br><span class="line">执行命令修改如下2个内核参数 （需要root权限） </span><br><span class="line">sysctl -w net.ipv4.tcp_timestamps&#x3D;1  开启对于TCP时间戳的支持,若该项设置为0，则下面一项设置不起作用</span><br><span class="line">sysctl -w net.ipv4.tcp_tw_recycle&#x3D;1  表示开启TCP连接中TIME-WAIT sockets的快速回收</span><br></pre></td></tr></table></div></figure></div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/10/05/CMU15-721-Lec02-In-Memory-Databases/">CMU15-721-Lecture02笔记</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-10-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-05</span></span></div></header><div class="post-body"><div class="post-excerpt"><h2 id="lec-02-in-memory-databases"   >
-          <a href="#lec-02-in-memory-databases" class="heading-link"><i class="fas fa-link"></i></a>Lec-02 In-memory Databases</h2>
-      
-<p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Y7411o7GN?p=2" >video</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
-
-        <h2 id="disk-oriented-dbms面向磁盘的数据库"   >
-          <a href="#disk-oriented-dbms面向磁盘的数据库" class="heading-link"><i class="fas fa-link"></i></a>Disk-oriented DBMS(面向磁盘的数据库)</h2>
-      
-<ul>
-<li>
-<p>数据主要是在<strong>非易失性存储器</strong>中(HDD,SSD),以页或者帧(Page or Frame)为单位做存储</p>
-</li>
-<li>
-<p>使用在内存中的**缓存池(Buffer Pool)**来将磁盘数据导入内存并在内存中处理，缓存来自磁盘的page</p>
-</li>
-<li>
-<p><strong>槽(slot)</strong> , 数据库的数据存储结构是通过表空间（table space）-&gt;段(segment)-&gt;区（或者簇extends)-&gt;页（page)进行管理, 其中页是最小管理单元，而数据库表的记录在页内保持有序的方法就是<strong>槽(slot)管理</strong>，以MySQL为例分析：</p>
-<ul>
-<li>
-<p>Innodb是多条记录对应一个槽，而槽的作用就是用来在页面内进行数据搜索的，因为查找一条数据时，是用B+tree来保证通过树形结构找到一个记录所在的页，而在页内部真正找到这条记录是通过槽来完成的</p>
-</li>
-<li>
-<p>在页内部，Innodb划分出一个区域比如10byte，作为槽的区域（当然槽的区域根据使用的大小是可以变化的），一个槽占用2byte。那么现在可以将这个槽看作是长度大小为5的数组。</p>
-</li>
-<li>
-<p>当我们将一条数据记录写入数据库时，通过数据库的Innodb最终决定写入在这个页内。那么写在这个页的哪里呢？形象的理解就是这个页，就相当于一张A4纸；数据记录就是一条信息，我们写的时候就是从上到下，从左至右的方法去写。Innodb的写入方式基本上也是这样的写入方式，但是这其中有很多问题需要数据库去解决。其中就是写入后数据记录的顺序问题。</p>
-</li>
-<li>
-<p>模拟数据的写入过程：<br />
-1.写入第1条记录1，该记录在页内偏移量为120，长度为100，则slot[0]=120;<br />
-2.写入第2条记录10，该记录在页内偏移量为220，长度为100，则slot[1]=220;<br />
-3.写入第3条记录5，该记录在页内偏移量为320，长度为100，此时需要移动slot的内容，则slot[1]=320;slot[2]=220;</p>
-</li>
-<li>
-<p>这样通过 slot的有序性，就保证了写入页内的数据记录的有序性。上面说过，Innodb的槽是多条记录对应一个slot。对于innodb它页内记录通过双向链表相互联接。</p>
-<ul>
-<li>slot[0]=120对应记录1的偏移量，而记录1有指向记录2的指针，记录2有指向记录3的指针；</li>
-<li>slot[1]=420对应记录4的偏移量（这里假设每条记录长度为100），记录4有指向记录5的指针，记录5的指向记录6的指针</li>
-<li>后面的槽依次类推。slot[2]管理7，8，9三条记录；slot[3]管理10，11，12三条记录；slot[4]管理13，14，15三条记录；</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul></div><div class="post-readmore"><a class="post-readmore__link" href="/2021/10/05/CMU15-721-Lec02-In-Memory-Databases/"><span class="post-readmore__text">阅读全文</span><span class="post-readmore__icon"><i class="fas fa-long-arrow-alt-right"></i></span></a></div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/07/25/UseEGEbyMingW/">MingW GCC使用EGE图形库</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-07-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-07-25</span></span></div></header><div class="post-body"><div class="post-excerpt"><figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">egeball: egeball.cpp</span><br><span class="line">	g++ egeball.cpp -o egeball -I<span class="string">&quot;F:/workspace/ege20.08_all/EGE20.08/demo/test/include&quot;</span> -L<span class="string">&quot;F:/workspace/ege20.08_all/EGE20.08/demo/test/lib&quot;</span> -lgraphics64 -lgdiplus -luuid -lmsimg32 -lgdi32 -limm32 -lole32 -loleaut32 -lwinmm</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
-<p>注意:</p>
-<p>参数-L添加库文件搜索目录，因为libhello.a在libtest/lib目录中，这里需要指定该目录通知gcc，参数-l指定链接的库文件名称，比如 -ltest：编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上.so来确定库的名称</p>
-<p>**-<strong>include和</strong>-**I参数<br />
-**-<strong>include用来包含头文件，但一般情况下包含头文件都在源码里用#include xxxxxx实现，</strong>-<strong>include参数很少用。</strong>-**I参数是用来指定头文件目录</p>
-<p><strong>-l</strong>参数和**-L**参数</p>
-<p><strong>-l</strong>参数就是用来指定程序要链接的库，<strong>-l</strong>参数紧接着就是库名，那么库名跟真正的库文<br />
-件名有什么关系呢？就拿数学库来说，他的库名是m，<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="http://xn--libm-435fsgv46az1vzjocrb5z6g.so" >他的库文件名是libm.so</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，很容易看出，把库文件名的<br />
-头lib和尾.so去掉就是库名了。</p>
-<p>好了现在我们知道怎么得到库名了，<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="http://xn--libtest-4t3ktczqp7ed2covolpgtoaz43e99g3smt3cw9znuim1k4l9av10c1dhmv6alb2bpo6b.so" >比如我们自已要用到一个第三方提供的库名字叫libtest.so</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，那么我们只要把libtest.so拷贝到/usr/lib</p>
-<p>里，编译时加上**-**ltest参数，我们就能用上libtest.so库了（当然要用libtest.so库里的函数，我们还需要与libtest.so配套的头文件）。</p>
-<p>放在****/lib*<em><strong>和</strong></em>*/usr/lib*<em><strong>和</strong></em>*/usr/local/lib*<em><strong>里的库直接用</strong>-l</em><em>参数就能链接了，但如果库文件没放在这三个目录里，而是放在其他目录里，这时我们只用</em>*-l<strong>参数的话，链接还是会出错，出错信息大概是：“/usr/bin/ld: cannot find</strong>-<strong>lxxx”，<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="http://xn--ld3libxxx-nc6n4jxv801by2qmzrb3ilmdcqu6jfo9oow9f1kobt6j12f7lw.so" >也就是链接程序ld在那3个目录里找不到libxxx.so</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，这时另外一个参数</strong>-L<strong>就派上用场了，比如常用的X11的库，它放在/usr/X11R6/lib目录下，我们编译时就要用</strong>-L**/usr/X11R6/lib</p>
-<p>测试新token</p>
-</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2021/07/25/VisualStudioSimpleNES/">关于 SFML 在 Visual Studio下的环境搭建</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2021-07-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-07-25</span></span></div></header><div class="post-body"><div class="post-excerpt">
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Aaron的个人空间</div><div class="header-banner-info__subtitle">Welcome</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/11/05/VisualStudioSimpleNES/">关于 SFML 在 Visual Studio下的环境搭建</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-07-25</span></span></div></header><div class="post-body"><div class="post-excerpt">
         <h1 id="关于-sfml-在-visual-studio下的环境搭建"   >
           <a href="#关于-sfml-在-visual-studio下的环境搭建" class="heading-link"><i class="fas fa-link"></i></a>关于 SFML 在 Visual Studio下的环境搭建</h1>
       
@@ -327,7 +59,48 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.2.0"></he
 <p>（debug）  选择 配置属性 → 链接器 → 输入 → 附加依赖项，加入 sfml-graphics.lib;sfml-window.lib;sfml-system.lib;</p>
 <p>（Release）选择 配置属性 → 链接器 → 输入 → 附加依赖项，加入 sfml-graphics.lib,sfml-window.lib,sfml-system.lib;</p>
 <p><img src="https://gitee.com/waldenth/blogimage/raw/master/img/1872684-20200903230215849-2097976373.png" alt="img" /></p>
-</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right"></i></a></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://s2.loli.net/2022/04/01/BD2WfjUMlS7FxTv.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="mailto:waldenth@outlook.com" target="_blank" rel="noopener" data-popover="outlook-email" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/31914896" target="_blank" rel="noopener" data-popover="Bilibili" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-tv"></i></span></a><a class="sidebar-ov-social-item" href="https://steamcommunity.com/profiles/76561198873347160/" target="_blank" rel="noopener" data-popover="steam" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-steam"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2021008806号-1</a></span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/11/05/vscode_headfile/">vscode头文件路径配置</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-10-16</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h2 id="vscode头文件路径"   >
+          <a href="#vscode头文件路径" class="heading-link"><i class="fas fa-link"></i></a>vscode头文件路径</h2>
+      
+<figure class="highlight json"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;configurations&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;Linux&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;includePath&quot;</span>: [</span><br><span class="line">                <span class="string">&quot;$&#123;default&#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/**&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/src&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/deps&quot;</span>,</span><br><span class="line">                <span class="string">&quot;$&#123;workspaceFolder&#125;/src/observer&quot;</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">&quot;compilerPath&quot;</span>: <span class="string">&quot;/usr/bin/gcc&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;cStandard&quot;</span>: <span class="string">&quot;gnu17&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;intelliSenseMode&quot;</span>: <span class="string">&quot;linux-gcc-x64&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;version&quot;</span>: <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>/* 是拦截所有的文件夹，不包含子文件夹<br />
+/** 是拦截所有的文件夹及里面的子文件夹</p>
+<p>相当于/*只有后面一级</p>
+<p>/** 可以包含多级</p>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/11/05/UseEGEbyMingW/">MingW GCC使用EGE图形库</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-07-25</span></span></div></header><div class="post-body"><div class="post-excerpt"><figure class="highlight bash"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">egeball: egeball.cpp</span><br><span class="line">	g++ egeball.cpp -o egeball -I<span class="string">&quot;F:/workspace/ege20.08_all/EGE20.08/demo/test/include&quot;</span> -L<span class="string">&quot;F:/workspace/ege20.08_all/EGE20.08/demo/test/lib&quot;</span> -lgraphics64 -lgdiplus -luuid -lmsimg32 -lgdi32 -limm32 -lole32 -loleaut32 -lwinmm</span><br><span class="line"></span><br></pre></td></tr></table></div></figure>
+<p>注意:</p>
+<p>参数-L添加库文件搜索目录，因为libhello.a在libtest/lib目录中，这里需要指定该目录通知gcc，参数-l指定链接的库文件名称，比如 -ltest：编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上.so来确定库的名称</p>
+<p>**-<strong>include和</strong>-**I参数<br />
+**-<strong>include用来包含头文件，但一般情况下包含头文件都在源码里用#include xxxxxx实现，</strong>-<strong>include参数很少用。</strong>-**I参数是用来指定头文件目录</p>
+<p><strong>-l</strong>参数和**-L**参数</p>
+<p><strong>-l</strong>参数就是用来指定程序要链接的库，<strong>-l</strong>参数紧接着就是库名，那么库名跟真正的库文<br />
+件名有什么关系呢？就拿数学库来说，他的库名是m，<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="http://xn--libm-435fsgv46az1vzjocrb5z6g.so" >他的库文件名是libm.so</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，很容易看出，把库文件名的<br />
+头lib和尾.so去掉就是库名了。</p>
+<p>好了现在我们知道怎么得到库名了，<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="http://xn--libtest-4t3ktczqp7ed2covolpgtoaz43e99g3smt3cw9znuim1k4l9av10c1dhmv6alb2bpo6b.so" >比如我们自已要用到一个第三方提供的库名字叫libtest.so</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，那么我们只要把libtest.so拷贝到/usr/lib</p>
+<p>里，编译时加上**-**ltest参数，我们就能用上libtest.so库了（当然要用libtest.so库里的函数，我们还需要与libtest.so配套的头文件）。</p>
+<p>放在****/lib*<em><strong>和</strong></em>*/usr/lib*<em><strong>和</strong></em>*/usr/local/lib*<em><strong>里的库直接用</strong>-l</em><em>参数就能链接了，但如果库文件没放在这三个目录里，而是放在其他目录里，这时我们只用</em>*-l<strong>参数的话，链接还是会出错，出错信息大概是：“/usr/bin/ld: cannot find</strong>-<strong>lxxx”，<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="http://xn--ld3libxxx-nc6n4jxv801by2qmzrb3ilmdcqu6jfo9oow9f1kobt6j12f7lw.so" >也就是链接程序ld在那3个目录里找不到libxxx.so</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，这时另外一个参数</strong>-L<strong>就派上用场了，比如常用的X11的库，它放在/usr/X11R6/lib目录下，我们编译时就要用</strong>-L**/usr/X11R6/lib</p>
+<p>测试新token</p>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/11/05/Systemctl_Linux/">systemctl如何关闭/启用/禁用服务</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-07-27</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h2 id="systemctlsystemctl如何关闭启用禁用服务"   >
+          <a href="#systemctlsystemctl如何关闭启用禁用服务" class="heading-link"><i class="fas fa-link"></i></a>systemctlsystemctl如何关闭/启用/禁用服务</h2>
+      
+<p>启动服务：systemctl start vsftpd.service</p>
+<p>关闭服务：systemctl stop vsftpd.service</p>
+<p>重启服务：systemctl restart vsftpd.service</p>
+<p>显示服务的状态：systemctl status vsftpd.service</p>
+<p>在开机时启用服务：systemctl enable vsftpd.service</p>
+<p>在开机时禁用服务：systemctl disable vsftpd.service</p>
+<p>查看服务是否开机启动：systemctl is-enabled vsftpd.service</p>
+<p>查看已启动的服务列表：systemctl list-unit-files|grep enabled</p>
+<p>查看启动失败的服务列表：systemctl --failed</p>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/11/05/LeetCode-91/">LeetCode-91-解码方法</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-11-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2021-05-07</span></span></div></header><div class="post-body"><div class="post-excerpt"><h3 id="91-解码方法"   >
+          <a href="#91-解码方法" class="heading-link"><i class="fas fa-link"></i></a>91. 解码方法</h3>
+      
+<p>测试，一条包含字母 <code>A-Z</code> 的消息通过以下方式进行了编码：</p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#39;A&#39; -&gt; 1</span><br><span class="line">&#39;B&#39; -&gt; 2</span><br><span class="line">...</span><br><span class="line">&#39;Z&#39; -&gt; 26</span><br></pre></td></tr></table></div></figure>
+<p>给定一个只包含数字的<strong>非空</strong>字符串，请计算解码方法的总数。</p>
+<p>我的<code>LeetCode</code>笔记仓库：<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://github.com/Waldenth/My-LeetCode" >https://github.com/Waldenth/My-LeetCode</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p></div><div class="post-readmore"><a class="post-readmore__link" href="/2022/11/05/LeetCode-91/"><span class="post-readmore__text">阅读全文</span><span class="post-readmore__icon"><i class="fas fa-long-arrow-alt-right"></i></span></a></div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-right"></i></a></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="https://s2.loli.net/2022/04/01/BD2WfjUMlS7FxTv.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">Hello world!</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/Waldenth" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="mailto:waldenth@outlook.com" target="_blank" rel="noopener" data-popover="outlook-email" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-mail-bulk"></i></span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/31914896" target="_blank" rel="noopener" data-popover="Bilibili" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fas fa-tv"></i></span></a><a class="sidebar-ov-social-item" href="https://steamcommunity.com/profiles/76561198873347160/" target="_blank" rel="noopener" data-popover="steam" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-steam"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">12</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2023</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Aaron</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2021008806号-1</a></span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v5.2.0</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script>function initSearch() {
   var isXML = true;
   var search_path = 'search.json';
 
